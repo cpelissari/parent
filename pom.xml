@@ -206,7 +206,6 @@
 					<executions>
 						<execution>
 							<id>schema</id>
-							<phase>process-resources</phase>
 							<goals>
 								<goal>run</goal>
 							</goals>
@@ -311,7 +310,6 @@
 					<executions>
 						<execution>
 							<id>schema</id>
-							<phase>process-resources</phase>
 							<goals>
 								<goal>init</goal>
 								<goal>migrate</goal>
@@ -339,7 +337,6 @@
 					<executions>
 						<execution>
 							<id>schema</id>
-							<phase>process-resources</phase>
 							<goals>
 								<goal>execute</goal>
 							</goals>
