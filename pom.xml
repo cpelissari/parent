@@ -10,6 +10,7 @@
 		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-parent.git</developerConnection>
 	</scm>
 	<properties>
+		<caucho.resin.version>3.2.1</caucho.resin.version>
 		<eclipse.lifecycle-mapping.version>1.0.0</eclipse.lifecycle-mapping.version>
 		<google.guava.version>10.0.1</google.guava.version>
 		<google.guice.version>3.0</google.guice.version>
