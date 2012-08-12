@@ -42,7 +42,7 @@
 		<objectos.comuns.jgravatar.version>1.0.0</objectos.comuns.jgravatar.version>
 		<objectos.comuns.sitebricks.version>2.0.32</objectos.comuns.sitebricks.version>
 		<objectos.comuns.sqlunit.version>2.0.1</objectos.comuns.sqlunit.version>
-		<org.hamcrest.version>1.3.RC2</org.hamcrest.version>
+		<org.hamcrest.version>1.3</org.hamcrest.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<testng.version>6.7</testng.version>
@@ -533,12 +533,6 @@
 			<version>${joda-time.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>net.jcip</groupId>
 			<artifactId>jcip-annotations</artifactId>
 			<version>1.0</version>
@@ -564,11 +558,17 @@
 			<artifactId>logback-core</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
-		<!-- equals tester -->
+		<!-- testing -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-integration</artifactId>
 			<version>${org.hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
