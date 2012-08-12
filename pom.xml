@@ -12,7 +12,7 @@
 	<properties>
 		<caucho.resin.version>3.2.1</caucho.resin.version>
 		<eclipse.lifecycle-mapping.version>1.0.0</eclipse.lifecycle-mapping.version>
-		<google.guava.version>12.0</google.guava.version>
+		<google.guava.version>13.0</google.guava.version>
 		<google.guice.version>3.0</google.guice.version>
 		<googlecode.flyway.version>1.4.2</googlecode.flyway.version>
 		<hibernate.core.version>3.6.6.Final</hibernate.core.version>
@@ -33,12 +33,19 @@
 		<maven.sql.version>1.5</maven.sql.version>
 		<maven.surefire.version>2.8.1</maven.surefire.version>
 		<maven.war.version>2.1.1</maven.war.version>
-		<mysql.connector.version>5.1.16</mysql.connector.version>
+		<mysql.connector.version>5.1.21</mysql.connector.version>
 		<net.sf.ehcache.version>2.2.0</net.sf.ehcache.version>
+		<objectos.comuns.base.version>2.0.15</objectos.comuns.base.version>
+		<objectos.comuns.dbunit.version>2.0.6</objectos.comuns.dbunit.version>
+		<objectos.comuns.io.version>2.0.2</objectos.comuns.io.version>
+		<objectos.comuns.jdbc.version>2.0.33</objectos.comuns.jdbc.version>
+		<objectos.comuns.jgravatar.version>1.0.0</objectos.comuns.jgravatar.version>
+		<objectos.comuns.sitebricks.version>2.0.32</objectos.comuns.sitebricks.version>
+		<objectos.comuns.sqlunit.version>2.0.1</objectos.comuns.sqlunit.version>
 		<org.hamcrest.version>1.3.RC2</org.hamcrest.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<testng.version>6.0.1</testng.version>
+		<testng.version>6.7</testng.version>
 	</properties>
 	<profiles>
 		<profile>
