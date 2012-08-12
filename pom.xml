@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.objectos</groupId>
 	<artifactId>objectos-comuns-parent</artifactId>
@@ -14,6 +15,7 @@
 		<eclipse.lifecycle-mapping.version>1.0.0</eclipse.lifecycle-mapping.version>
 		<google.guava.version>13.0</google.guava.version>
 		<google.guice.version>3.0</google.guice.version>
+		<google.jsr305.version>1.3.9</google.jsr305.version>
 		<googlecode.flyway.version>1.4.2</googlecode.flyway.version>
 		<hibernate.core.version>3.6.6.Final</hibernate.core.version>
 		<hibernate.jpa2.version>1.0.1.Final</hibernate.jpa2.version>
@@ -143,13 +145,19 @@
 									<configuration>
 										<target>
 
-											<copy file="${project.build.directory}/${project.artifactId}-${project.version}.war" tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}" overwrite="true" />
+											<copy
+												file="${project.build.directory}/${project.artifactId}-${project.version}.war"
+												tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}"
+												overwrite="true" />
 
-											<copy file="${basedir}/resources/jetty-context.xml" tofile="${jetty.home}/contexts/${project.artifactId}.xml" overwrite="true">
+											<copy file="${basedir}/resources/jetty-context.xml"
+												tofile="${jetty.home}/contexts/${project.artifactId}.xml"
+												overwrite="true">
 
 												<filterset>
 													<filter token="jetty.contextPath" value="${project.contextPath}" />
-													<filter token="jetty.war" value="${project.artifactId}.war.${project.version}" />
+													<filter token="jetty.war"
+														value="${project.artifactId}.war.${project.version}" />
 												</filterset>
 
 											</copy>
@@ -520,6 +528,11 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${google.guava.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>${google.jsr305.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>aopalliance</groupId>
