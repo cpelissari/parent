@@ -38,6 +38,7 @@
 		<net.sf.ehcache.version>2.2.0</net.sf.ehcache.version>
 		<objectos.comuns.attachment.version>2.0.0</objectos.comuns.attachment.version>
 		<objectos.comuns.base.version>2.0.16</objectos.comuns.base.version>
+		<objectos.comuns.cli.version>2.0.0</objectos.comuns.cli.version>
 		<objectos.comuns.cron.version>2.0.0</objectos.comuns.cron.version>
 		<objectos.comuns.dbunit.version>2.0.7</objectos.comuns.dbunit.version>
 		<objectos.comuns.fileupload.version>2.0.0</objectos.comuns.fileupload.version>
@@ -528,7 +529,7 @@
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
 			<artifactId>equalsverifier</artifactId>
-			<version>1.0.2</version>
+			<version>1.1.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
