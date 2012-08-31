@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.objectos</groupId>
 	<artifactId>objectos-comuns-parent</artifactId>
@@ -101,13 +102,19 @@
 									<configuration>
 										<target>
 
-											<copy file="${project.build.directory}/${project.artifactId}-${project.version}.war" tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}" overwrite="true" />
+											<copy
+												file="${project.build.directory}/${project.artifactId}-${project.version}.war"
+												tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}"
+												overwrite="true" />
 
-											<copy file="${basedir}/resources/jetty-context.xml" tofile="${jetty.home}/contexts/${project.artifactId}.xml" overwrite="true">
+											<copy file="${basedir}/resources/jetty-context.xml"
+												tofile="${jetty.home}/contexts/${project.artifactId}.xml"
+												overwrite="true">
 
 												<filterset>
 													<filter token="jetty.contextPath" value="${project.contextPath}" />
-													<filter token="jetty.war" value="${project.artifactId}.war.${project.version}" />
+													<filter token="jetty.war"
+														value="${project.artifactId}.war.${project.version}" />
 												</filterset>
 
 											</copy>
@@ -255,6 +262,8 @@
 					<executions>
 						<execution>
 							<id>schema</id>
+							<phase>compile</phase>
+							<inherited>true</inherited>
 							<goals>
 								<goal>migrate</goal>
 							</goals>
@@ -281,6 +290,8 @@
 					<executions>
 						<execution>
 							<id>schema</id>
+							<phase>compile</phase>
+							<inherited>true</inherited>
 							<goals>
 								<goal>execute</goal>
 							</goals>
