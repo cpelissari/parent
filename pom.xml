@@ -1,11 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.objectos</groupId>
 	<artifactId>objectos-comuns-parent</artifactId>
 	<packaging>pom</packaging>
 	<name>objectos comuns-parent</name>
-	<version>2.0.21-SNAPSHOT</version>
+	<version>2.0.21</version>
 	<scm>
 		<connection>scm:git:git://objectos/objectos-comuns-parent.git</connection>
 		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-parent.git</developerConnection>
@@ -102,19 +101,13 @@
 									<configuration>
 										<target>
 
-											<copy
-												file="${project.build.directory}/${project.artifactId}-${project.version}.war"
-												tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}"
-												overwrite="true" />
+											<copy file="${project.build.directory}/${project.artifactId}-${project.version}.war" tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}" overwrite="true" />
 
-											<copy file="${basedir}/resources/jetty-context.xml"
-												tofile="${jetty.home}/contexts/${project.artifactId}.xml"
-												overwrite="true">
+											<copy file="${basedir}/resources/jetty-context.xml" tofile="${jetty.home}/contexts/${project.artifactId}.xml" overwrite="true">
 
 												<filterset>
 													<filter token="jetty.contextPath" value="${project.contextPath}" />
-													<filter token="jetty.war"
-														value="${project.artifactId}.war.${project.version}" />
+													<filter token="jetty.war" value="${project.artifactId}.war.${project.version}" />
 												</filterset>
 
 											</copy>
