@@ -48,6 +48,7 @@
 		<objectos.comuns.relational.version>2.0.5</objectos.comuns.relational.version>
 		<objectos.comuns.sitebricks.version>2.0.32</objectos.comuns.sitebricks.version>
 		<objectos.comuns.sqlunit.version>2.0.4</objectos.comuns.sqlunit.version>
+		<objectos.comuns.wkhtmltopdf.version>2.0.0</objectos.comuns.wkhtmltopdf.version>
 		<org.hamcrest.version>1.3</org.hamcrest.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
