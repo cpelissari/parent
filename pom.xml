@@ -4,7 +4,7 @@
 	<artifactId>objectos-comuns-parent</artifactId>
 	<packaging>pom</packaging>
 	<name>objectos comuns-parent</name>
-	<version>2.0.28-SNAPSHOT</version>
+	<version>2.0.28</version>
 	<scm>
 		<connection>scm:git:git://objectos/objectos-comuns-parent.git</connection>
 		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-parent.git</developerConnection>
