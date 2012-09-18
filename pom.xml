@@ -37,7 +37,7 @@
 		<mysql.connector.version>5.1.21</mysql.connector.version>
 		<net.sf.ehcache.version>2.2.0</net.sf.ehcache.version>
 		<objectos.comuns.attachment.version>2.0.0</objectos.comuns.attachment.version>
-		<objectos.comuns.base.version>2.0.19</objectos.comuns.base.version>
+		<objectos.comuns.base.version>2.0.20</objectos.comuns.base.version>
 		<objectos.comuns.cli.version>2.0.1</objectos.comuns.cli.version>
 		<objectos.comuns.cnab.version>2.0.0</objectos.comuns.cnab.version>
 		<objectos.comuns.cron.version>2.0.0</objectos.comuns.cron.version>
