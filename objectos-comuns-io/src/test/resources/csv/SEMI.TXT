@@ -1,0 +1,3 @@
+"boolean";"booleano";"double";"estado";"integer";"local_date";"long";"String"
+"true   ";"true    ";"1.23  ";"SP    ";"123    ";"2012-09-09";"123 ";"abc"
+"false  ";"false   ";"4.56  ";"MG    ";"456    ";"2011-09-09";"456 ";"def"
