@@ -3,12 +3,15 @@
 	<groupId>br.com.objectos</groupId>
 	<artifactId>objectos-comuns-parent</artifactId>
 	<packaging>pom</packaging>
-	<name>objectos comuns-parent</name>
-	<version>2.0.42-SNAPSHOT</version>
+	<name>objectos :: comuns</name>
+	<version>3.0-SNAPSHOT</version>
 	<scm>
 		<connection>scm:git:git://objectos/objectos-comuns-parent.git</connection>
 		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-parent.git</developerConnection>
 	</scm>
+    <modules>
+        <module>objectos-comuns-attachment</module>
+    </modules>
 	<properties>
 		<caucho.resin.version>3.2.1</caucho.resin.version>
 		<eclipse.lifecycle-mapping.version>1.0.0</eclipse.lifecycle-mapping.version>
@@ -36,7 +39,7 @@
 		<maven.war.version>2.1.1</maven.war.version>
 		<mysql.connector.version>5.1.21</mysql.connector.version>
 		<net.sf.ehcache.version>2.2.0</net.sf.ehcache.version>
-		<objectos.comuns.attachment.version>2.0.1</objectos.comuns.attachment.version>
+		<objectos.comuns.attachment.version>${project.version}</objectos.comuns.attachment.version>
 		<objectos.comuns.base.version>2.0.20</objectos.comuns.base.version>
 		<objectos.comuns.cli.version>2.0.1</objectos.comuns.cli.version>
 		<objectos.comuns.cnab.version>2.0.1</objectos.comuns.cnab.version>
