@@ -11,6 +11,7 @@
 	</scm>
     <modules>
         <module>objectos-comuns-attachment</module>
+        <module>objectos-comuns-sitebricks</module>
     </modules>
 	<properties>
 		<caucho.resin.version>3.2.1</caucho.resin.version>
@@ -52,7 +53,7 @@
 		<objectos.comuns.jdbc.version>2.0.35</objectos.comuns.jdbc.version>
 		<objectos.comuns.jgravatar.version>1.0.0</objectos.comuns.jgravatar.version>
 		<objectos.comuns.relational.version>2.0.5</objectos.comuns.relational.version>
-		<objectos.comuns.sitebricks.version>2.0.38</objectos.comuns.sitebricks.version>
+		<objectos.comuns.sitebricks.version>${objectos.comuns.version}</objectos.comuns.sitebricks.version>
 		<objectos.comuns.sqlunit.version>2.0.4</objectos.comuns.sqlunit.version>
 		<objectos.comuns.wkhtmltopdf.version>2.0.0</objectos.comuns.wkhtmltopdf.version>
 		<org.imgscalr.version>4.2</org.imgscalr.version>
