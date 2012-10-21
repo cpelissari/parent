@@ -80,9 +80,7 @@ class AttachmentsGuice implements Attachments {
         InputStream in = file.openStream();
         AttachmentIO.write(baseDir, uuid, in);
 
-        pages.addPagesTo(attach);
-
-        return attach;
+        return pages.addPagesTo(attach);
 
       } catch (UploadRequestException e) {
 

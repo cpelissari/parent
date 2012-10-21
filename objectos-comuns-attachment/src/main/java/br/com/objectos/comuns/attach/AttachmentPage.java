@@ -16,11 +16,11 @@ public interface AttachmentPage {
 
   interface Builder {
 
-    Attachment getAttachment();
+    String getBaseDir();
+
+    UUID getUuid();
 
     int getNumber();
-
-    boolean isOriginal();
 
   }
 
@@ -31,13 +31,9 @@ public interface AttachmentPage {
 
   File getFile();
 
-  Attachment getAttachment();
-
   UUID getUuid();
 
   int getNumber();
-
-  boolean isOriginal();
 
   String getName();
 

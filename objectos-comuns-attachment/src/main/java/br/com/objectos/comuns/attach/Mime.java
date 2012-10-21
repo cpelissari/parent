@@ -26,7 +26,8 @@ public enum Mime {
   }
 
   public static Mime valueOf(UploadedFile file) {
-    return null;
+    String name = file.getName();
+    return valueOfContentType(name);
   }
 
   public static Mime valueOfContentType(String filename) {

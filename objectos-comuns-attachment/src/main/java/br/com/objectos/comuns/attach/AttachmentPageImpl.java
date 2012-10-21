@@ -24,14 +24,14 @@ import com.google.common.io.Files;
  */
 class AttachmentPageImpl implements AttachmentPage {
 
-  private final Attachment attachment;
+  private final String baseDir;
+  private final UUID uuid;
   private final int number;
-  private final boolean original;
 
-  public AttachmentPageImpl(Builder construtor) {
-    attachment = construtor.getAttachment();
-    number = construtor.getNumber();
-    original = construtor.isOriginal();
+  public AttachmentPageImpl(Builder builder) {
+    baseDir = builder.getBaseDir();
+    uuid = builder.getUuid();
+    number = builder.getNumber();
   }
 
   @Override
@@ -60,9 +60,6 @@ class AttachmentPageImpl implements AttachmentPage {
 
   @Override
   public File getFile() {
-    String baseDir = attachment.getBaseDir();
-    UUID uuid = attachment.getUuid();
-
     File dir = AttachmentIO.dir(baseDir, uuid);
 
     String name = getName();
@@ -70,13 +67,8 @@ class AttachmentPageImpl implements AttachmentPage {
   }
 
   @Override
-  public Attachment getAttachment() {
-    return attachment;
-  }
-
-  @Override
   public UUID getUuid() {
-    return attachment.getUuid();
+    return uuid;
   }
 
   @Override
@@ -85,19 +77,8 @@ class AttachmentPageImpl implements AttachmentPage {
   }
 
   @Override
-  public boolean isOriginal() {
-    return original;
-  }
-
-  @Override
   public String getName() {
-    UUID uuid = attachment.getUuid();
-
-    if (!original) {
-      return String.format("%s.%d", uuid, number);
-    } else {
-      return uuid.toString();
-    }
+    return String.format("%s.%d", uuid, number);
   }
 
   private byte[] image(Size size, File file) {

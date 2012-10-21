@@ -6,24 +6,26 @@
  */
 package br.com.objectos.comuns.attach;
 
+import java.util.UUID;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 public class FakeAttachmentPageBuilder implements AttachmentPage.Builder {
 
   @Override
-  public Attachment getAttachment() {
+  public String getBaseDir() {
+    return null;
+  }
+
+  @Override
+  public UUID getUuid() {
     return null;
   }
 
   @Override
   public int getNumber() {
     return 0;
-  }
-
-  @Override
-  public boolean isOriginal() {
-    return false;
   }
 
 }

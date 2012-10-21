@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.List;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
@@ -134,18 +135,18 @@ class MimeConvPdf implements MimeConv {
     }
 
     @Override
-    public Attachment getAttachment() {
-      return attach;
+    public String getBaseDir() {
+      return attach.getBaseDir();
+    }
+
+    @Override
+    public UUID getUuid() {
+      return attach.getUuid();
     }
 
     @Override
     public int getNumber() {
       return page.getPageNumber();
-    }
-
-    @Override
-    public boolean isOriginal() {
-      return false;
     }
 
   }

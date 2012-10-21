@@ -6,11 +6,14 @@
  */
 package br.com.objectos.comuns.attach;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import br.com.objectos.comuns.base.Construtor;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.Files;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -25,9 +28,14 @@ class MimeConvNone implements MimeConv {
 
   @Override
   public List<AttachmentPage> extract() {
-    AttachmentPage page = new PageBuilder().novaInstancia();
-
-    return ImmutableList.of(page);
+    try {
+      AttachmentPage page = new PageBuilder().novaInstancia();
+      Files.copy(attach.getFile(), page.getFile());
+      return ImmutableList.of(page);
+    } catch (IOException e) {
+      throw new AttachmentException(
+          "Could not save page of " + attach.getUuid(), e);
+    }
   }
 
   private class PageBuilder implements AttachmentPage.Builder, Construtor<AttachmentPage> {
@@ -38,18 +46,18 @@ class MimeConvNone implements MimeConv {
     }
 
     @Override
-    public Attachment getAttachment() {
-      return attach;
+    public String getBaseDir() {
+      return attach.getBaseDir();
+    }
+
+    @Override
+    public UUID getUuid() {
+      return attach.getUuid();
     }
 
     @Override
     public int getNumber() {
       return 1;
-    }
-
-    @Override
-    public boolean isOriginal() {
-      return true;
     }
 
   }

@@ -54,7 +54,7 @@ class ProtoAttachment implements Attachment {
   @Override
   public File getFile() {
     File dir = AttachmentIO.dir(baseDir, uuid);
-    return new File(dir, name);
+    return new File(dir, uuid.toString());
   }
 
   @Override
