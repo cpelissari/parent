@@ -71,6 +71,10 @@ public class Cnab implements Modelo {
     return retornoDe(f);
   }
 
+  public static RemessaBuilder remessaParaBanco(Banco banco) {
+    return banco.newRemessaBuilder();
+  }
+
   public static CnabHeader header() {
     return banco.headerSpec;
   }
@@ -83,10 +87,24 @@ public class Cnab implements Modelo {
   public Spec getHeaderSpec() {
     return headerSpec;
   }
-
   @Override
   public Spec getLoteSpec() {
     return loteSpec;
+  }
+
+  @Override
+  public RemessaSpec getHeaderRemessaSpec() {
+    throw new UnsupportedOperationException("IMPLEMENT ME!");
+  }
+
+  @Override
+  public RemessaSpec getLoteRemessaSpec() {
+    throw new UnsupportedOperationException("IMPLEMENT ME!");
+  }
+
+  @Override
+  public RemessaSpec getTrailerRemessaSpec() {
+    throw new UnsupportedOperationException("IMPLEMENT ME!");
   }
 
   private static ArquivoRetorno retornoDe(FixedFile file) {

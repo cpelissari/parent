@@ -276,7 +276,7 @@ public class TesteDeLoteBradesco {
     assertThat(res.get(2), equalTo(4));
   }
 
-  private class ToCodigo implements Function<String, String> {
+  private static class ToCodigo implements Function<String, String> {
     @Override
     public String apply(String input) {
       return Codigo.valueOf(input).toString();
