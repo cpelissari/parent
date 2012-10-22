@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.objectos</groupId>
@@ -12,6 +13,7 @@
 	<modules>
 		<module>objectos-comuns-attachment</module>
 		<module>objectos-comuns-base</module>
+        <module>objectos-comuns-boleto</module>
 		<module>objectos-comuns-cnab</module>
 		<module>objectos-comuns-fileupload</module>
 		<module>objectos-comuns-io</module>
@@ -19,6 +21,7 @@
 		<module>objectos-comuns-sitebricks</module>
 	</modules>
 	<properties>
+		<caelum.stella.version>2.0-beta1</caelum.stella.version>
 		<caucho.resin.version>3.2.1</caucho.resin.version>
 		<eclipse.lifecycle-mapping.version>1.0.0</eclipse.lifecycle-mapping.version>
 		<google.guava.version>13.0</google.guava.version>
@@ -119,13 +122,13 @@
 									<configuration>
 										<target>
 
-											<copy file="${project.build.directory}/${project.artifactId}-${project.version}.war" tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}" overwrite="true" />
+											<copy file="${project.build.directory}/${project.artifactId}-${project.version}.war" tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}" overwrite="true"/>
 
 											<copy file="${basedir}/resources/jetty-context.xml" tofile="${jetty.home}/contexts/${project.artifactId}.xml" overwrite="true">
 
 												<filterset>
-													<filter token="jetty.contextPath" value="${project.contextPath}" />
-													<filter token="jetty.war" value="${project.artifactId}.war.${project.version}" />
+													<filter token="jetty.contextPath" value="${project.contextPath}"/>
+													<filter token="jetty.war" value="${project.artifactId}.war.${project.version}"/>
 												</filterset>
 
 											</copy>
@@ -339,7 +342,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -352,7 +355,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -365,7 +368,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -379,7 +382,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -392,7 +395,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -406,7 +409,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
