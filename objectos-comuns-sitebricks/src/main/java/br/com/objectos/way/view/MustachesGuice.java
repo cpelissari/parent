@@ -13,26 +13,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.comuns.sitebricks.json;
+package br.com.objectos.way.view;
 
-import br.com.objectos.comuns.sitebricks.BaseUrl;
-
-import com.google.inject.Inject;
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
 import com.google.inject.Singleton;
-import com.google.sitebricks.client.transport.JacksonJsonTransport;
-import com.google.sitebricks.conversion.ConverterRegistry;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Singleton
-class ObjectosJson extends JacksonJsonTransport {
+class MustachesGuice implements Mustaches {
 
-  @Inject
-  public ObjectosJson(ConverterRegistry registry, BaseUrl baseUrl) {
-    super(registry);
+  private final MustacheFactory mustacheFactory = new DefaultMustacheFactory();
 
-    new ObjectMapperDecorator(baseUrl).decorate(getObjectMapper());
+  @Override
+  public Mustache compile(String name) {
+    return mustacheFactory.compile(name + ".mustache");
   }
 
 }

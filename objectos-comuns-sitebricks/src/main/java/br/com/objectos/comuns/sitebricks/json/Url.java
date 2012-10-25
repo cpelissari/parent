@@ -15,33 +15,26 @@
  */
 package br.com.objectos.comuns.sitebricks.json;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
 import br.com.objectos.comuns.sitebricks.BaseUrl;
-
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.sitebricks.client.transport.JacksonJsonTransport;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class ObjectMapperProvider implements Provider<ObjectMapper> {
+public class Url {
 
-  private final BaseUrl baseUrl;
+  private final String path;
 
-  private final JacksonJsonTransport transport;
-
-  @Inject
-  public ObjectMapperProvider(BaseUrl baseUrl, JacksonJsonTransport transport) {
-    this.baseUrl = baseUrl;
-    this.transport = transport;
+  public Url(String path) {
+    this.path = path;
   }
 
-  @Override
-  public ObjectMapper get() {
-    ObjectMapper mapper = transport.getObjectMapper();
-    return new ObjectMapperDecorator(baseUrl).decorate(mapper);
+  public static Url of(String format, Object... args) {
+    String path = String.format(format, args);
+    return new Url(path);
+  }
+
+  String toAbsolute(BaseUrl baseUrl) {
+    return baseUrl.get() + path;
   }
 
 }

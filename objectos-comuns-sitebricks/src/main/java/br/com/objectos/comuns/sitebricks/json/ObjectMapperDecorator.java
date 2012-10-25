@@ -28,11 +28,18 @@ import br.com.objectos.comuns.base.br.Cnpj;
 import br.com.objectos.comuns.base.br.Cpf;
 import br.com.objectos.comuns.matematica.financeira.Percentual;
 import br.com.objectos.comuns.matematica.financeira.ValorFinanceiro;
+import br.com.objectos.comuns.sitebricks.BaseUrl;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 public class ObjectMapperDecorator {
+
+  private final BaseUrl baseUrl;
+
+  public ObjectMapperDecorator(BaseUrl baseUrl) {
+    this.baseUrl = baseUrl;
+  }
 
   public ObjectMapper decorate(ObjectMapper mapper) {
     SerializationConfig config = mapper.getSerializationConfig();
@@ -51,7 +58,7 @@ public class ObjectMapperDecorator {
     return mapper;
   }
 
-  private static class CustomModule extends SimpleModule {
+  private class CustomModule extends SimpleModule {
     public CustomModule() {
       super("CustomModule", new Version(0, 1, 1, "duh"));
 
@@ -59,6 +66,7 @@ public class ObjectMapperDecorator {
       addSerializer(Cep.class, new CepSerializer());
       addSerializer(Cnpj.class, new CnpjSerializer());
       addSerializer(Cpf.class, new CpfSerializer());
+      addSerializer(Url.class, new UrlSerializer(baseUrl));
 
       // objectos comuns base (fin)
       addSerializer(Percentual.class, new PercentualSerializer());

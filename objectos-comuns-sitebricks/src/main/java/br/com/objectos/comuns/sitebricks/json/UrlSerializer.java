@@ -15,28 +15,33 @@
  */
 package br.com.objectos.comuns.sitebricks.json;
 
-import java.util.List;
+import java.io.IOException;
+
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.JsonSerializer;
+import org.codehaus.jackson.map.SerializerProvider;
+
+import br.com.objectos.comuns.sitebricks.BaseUrl;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public class ListJson {
+public class UrlSerializer extends JsonSerializer<Url> {
 
-  private final boolean empty;
+  private final BaseUrl baseUrl;
 
-  private final List<?> rows;
-
-  public ListJson(List<?> rows) {
-    this.empty = rows.isEmpty();
-    this.rows = rows;
+  public UrlSerializer(BaseUrl baseUrl) {
+    this.baseUrl = baseUrl;
   }
 
-  public boolean isEmpty() {
-    return empty;
-  }
+  @Override
+  public void serialize(Url value, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException, JsonProcessingException {
 
-  public List<?> getRows() {
-    return rows;
+    String url = value.toAbsolute(baseUrl);
+    jgen.writeString(url);
+
   }
 
 }

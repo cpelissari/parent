@@ -3,15 +3,15 @@
 	<parent>
 		<artifactId>objectos-comuns-parent</artifactId>
 		<groupId>br.com.objectos</groupId>
-        <version>3.0-SNAPSHOT</version>
-        <relativePath>..</relativePath>
+		<version>3.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>objectos-comuns-sitebricks</artifactId>
 	<name>objectos :: comuns :: web :: sitebricks</name>
-    <scm>
-        <connection>scm:git:git://objectos/objectos-comuns-sitebricks.git</connection>
-        <developerConnection>scm:git:git@github.com:objectos/objectos-comuns-sitebricks.git</developerConnection>
-    </scm>
+	<scm>
+		<connection>scm:git:git://objectos/objectos-comuns-sitebricks.git</connection>
+		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-sitebricks.git</developerConnection>
+	</scm>
 	<properties>
 		<google.sitebricks.version>0.8.5.2</google.sitebricks.version>
 		<googlecode.jatl.version>0.1.1</googlecode.jatl.version>
@@ -39,6 +39,11 @@
 			<groupId>br.com.objectos</groupId>
 			<artifactId>objectos-comuns-relational</artifactId>
 			<version>${objectos.comuns.relational.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.spullara.mustache.java</groupId>
+			<artifactId>compiler</artifactId>
+			<version>${mustache.java.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.jatl</groupId>

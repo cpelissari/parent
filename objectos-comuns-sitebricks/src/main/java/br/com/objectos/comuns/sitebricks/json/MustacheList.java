@@ -15,33 +15,28 @@
  */
 package br.com.objectos.comuns.sitebricks.json;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
-import br.com.objectos.comuns.sitebricks.BaseUrl;
-
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.sitebricks.client.transport.JacksonJsonTransport;
+import java.util.List;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class ObjectMapperProvider implements Provider<ObjectMapper> {
+public class MustacheList {
 
-  private final BaseUrl baseUrl;
+  private final boolean empty;
 
-  private final JacksonJsonTransport transport;
+  private final List<?> rows;
 
-  @Inject
-  public ObjectMapperProvider(BaseUrl baseUrl, JacksonJsonTransport transport) {
-    this.baseUrl = baseUrl;
-    this.transport = transport;
+  public MustacheList(List<?> rows) {
+    this.empty = rows.isEmpty();
+    this.rows = rows;
   }
 
-  @Override
-  public ObjectMapper get() {
-    ObjectMapper mapper = transport.getObjectMapper();
-    return new ObjectMapperDecorator(baseUrl).decorate(mapper);
+  public boolean isEmpty() {
+    return empty;
+  }
+
+  public List<?> getRows() {
+    return rows;
   }
 
 }
