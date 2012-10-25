@@ -15,31 +15,37 @@
  */
 package br.com.objectos.way.view;
 
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Singleton
-class MustachesGuice implements Mustaches {
+class ViewsGuice extends Views {
 
-  private final MustacheFactory mustacheFactory;
+  private final LoadingCache<String, String> cache = CacheBuilder
+      .newBuilder()
+      .build(new ViewLoader());
 
-  private final PagesBaseDir pagesBaseDir;
+  private final ViewsBaseDir baseDir;
 
   @Inject
-  public MustachesGuice(PagesBaseDir pagesBaseDir) {
-    this.mustacheFactory = pagesBaseDir.newMustacheFactory();
-    this.pagesBaseDir = pagesBaseDir;
+  public ViewsGuice(ViewsBaseDir baseDir) {
+    this.baseDir = baseDir;
   }
 
   @Override
-  public Mustache compile(Class<?> templateClass) {
-    String name = pagesBaseDir.toRelative(templateClass);
-    return mustacheFactory.compile(name + ".mustache");
+  public String get(String name) {
+    return cache.getUnchecked(name);
+  }
+
+  private class ViewLoader extends CacheLoader<String, String> {
+    @Override
+    public String load(String key) throws Exception {
+      return baseDir.get(key);
+    }
   }
 
 }

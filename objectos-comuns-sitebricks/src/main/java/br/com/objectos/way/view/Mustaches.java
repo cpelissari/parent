@@ -24,6 +24,6 @@ import com.google.inject.ImplementedBy;
 @ImplementedBy(MustachesGuice.class)
 public interface Mustaches {
 
-  Mustache compile(String template);
+  Mustache compile(Class<?> templateClass);
 
 }

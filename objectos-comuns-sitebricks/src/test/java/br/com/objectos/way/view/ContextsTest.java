@@ -15,31 +15,12 @@
  */
 package br.com.objectos.way.view;
 
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import org.testng.annotations.Test;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Singleton
-class MustachesGuice implements Mustaches {
-
-  private final MustacheFactory mustacheFactory;
-
-  private final PagesBaseDir pagesBaseDir;
-
-  @Inject
-  public MustachesGuice(PagesBaseDir pagesBaseDir) {
-    this.mustacheFactory = pagesBaseDir.newMustacheFactory();
-    this.pagesBaseDir = pagesBaseDir;
-  }
-
-  @Override
-  public Mustache compile(Class<?> templateClass) {
-    String name = pagesBaseDir.toRelative(templateClass);
-    return mustacheFactory.compile(name + ".mustache");
-  }
+@Test
+public class ContextsTest {
 
 }

@@ -6,13 +6,19 @@
  */
 package br.com.objectos.comuns.sitebricks;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
+@JsonSerialize(using = AnchorSerializer.class)
 public interface Anchor {
 
   String getUrl();
 
   String getText();
+
+  boolean isFirst();
+  boolean isLast();
 
 }

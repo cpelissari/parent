@@ -13,33 +13,53 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.way.view;
-
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+package br.com.objectos.comuns.sitebricks;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Singleton
-class MustachesGuice implements Mustaches {
+class AnchorImpl implements Anchor {
 
-  private final MustacheFactory mustacheFactory;
+  private final String url;
 
-  private final PagesBaseDir pagesBaseDir;
+  private final String text;
 
-  @Inject
-  public MustachesGuice(PagesBaseDir pagesBaseDir) {
-    this.mustacheFactory = pagesBaseDir.newMustacheFactory();
-    this.pagesBaseDir = pagesBaseDir;
+  public AnchorImpl(String url, String text) {
+    this.url = url;
+    this.text = text;
   }
 
   @Override
-  public Mustache compile(Class<?> templateClass) {
-    String name = pagesBaseDir.toRelative(templateClass);
-    return mustacheFactory.compile(name + ".mustache");
+  public String getUrl() {
+    return url;
+  }
+
+  @Override
+  public String getText() {
+    return text;
+  }
+
+  @Override
+  public boolean isFirst() {
+    return false;
+  }
+
+  @Override
+  public boolean isLast() {
+    return false;
+  }
+
+  static class First extends AnchorImpl {
+
+    public First(String url, String text) {
+      super(url, text);
+    }
+
+    @Override
+    public boolean isFirst() {
+      return true;
+    }
+
   }
 
 }

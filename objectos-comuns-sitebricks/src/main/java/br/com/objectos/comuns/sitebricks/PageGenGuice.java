@@ -120,8 +120,12 @@ class PageGenGuice implements PageGen {
 
     private final LinkedList<Display> parts;
 
+    private final List<Anchor> anchors;
+
     public PageBuilder(List<Display> parts) {
       this.parts = newLinkedList(parts);
+      List<Anchor> anchors = transform(parts, new ToAnchor());
+      this.anchors = ImmutableList.copyOf(anchors);
     }
 
     @Override
@@ -130,7 +134,7 @@ class PageGenGuice implements PageGen {
       String breadcrumbs = getBreadcrumbs();
       String url = getUrl();
 
-      return new PageImpl(title, breadcrumbs, url);
+      return new PageImpl(anchors, title, breadcrumbs, url);
     }
 
     private String getTitle() {
@@ -141,7 +145,6 @@ class PageGenGuice implements PageGen {
     }
 
     private String getBreadcrumbs() {
-      final List<Anchor> anchors = transform(parts, new ToAnchor());
       final int size = anchors.size();
 
       StringWriter writer = new StringWriter();
@@ -183,16 +186,29 @@ class PageGenGuice implements PageGen {
   }
 
   private class ToAnchor implements Function<Display, Anchor> {
+
+    private boolean first = true;
+
     @Override
     public Anchor apply(Display input) {
-      return new AnchorBuilder() //
-          .text(input.getTitle()) //
-          .url(input.getUrl()) //
-          .get();
+      String url = input.getUrl();
+      String text = input.getTitle();
+
+      AnchorImpl res = new AnchorImpl(url, text);
+
+      if (first) {
+        res = new AnchorImpl.First(url, text);
+        first = false;
+      }
+
+      return res;
     }
+
   }
 
   private static class PageImpl implements Page {
+
+    private final List<Anchor> anchors;
 
     private final String title;
 
@@ -200,10 +216,16 @@ class PageGenGuice implements PageGen {
 
     private final String url;
 
-    public PageImpl(String title, String breadcrumbs, String url) {
+    public PageImpl(List<Anchor> anchors, String title, String breadcrumbs, String url) {
+      this.anchors = anchors;
       this.title = title;
       this.breadcrumbs = breadcrumbs;
       this.url = url;
+    }
+
+    @Override
+    public List<Anchor> getAnchors() {
+      return anchors;
     }
 
     @Override

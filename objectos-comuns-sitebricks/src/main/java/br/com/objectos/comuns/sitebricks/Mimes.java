@@ -20,7 +20,8 @@ package br.com.objectos.comuns.sitebricks;
  */
 public class Mimes {
 
-  public static final String TEXT_HTML_CHARSET_UTF8 = "text/html; charset=utf8";
+  public static final String APPLICATION_JSON_UTF8 = "application/json; charset=utf8";
+  public static final String TEXT_HTML_UTF8 = "text/html; charset=utf8";
 
   private Mimes() {
   }

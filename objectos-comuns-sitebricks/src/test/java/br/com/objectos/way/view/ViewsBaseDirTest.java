@@ -15,31 +15,32 @@
  */
 package br.com.objectos.way.view;
 
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+import java.io.IOException;
+import java.net.URL;
+
+import org.testng.annotations.Test;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Singleton
-class MustachesGuice implements Mustaches {
+@Test
+public class ViewsBaseDirTest {
 
-  private final MustacheFactory mustacheFactory;
+  public void test() throws IOException {
+    ViewsBaseDir baseDir = ViewsBaseDir.atPackage("br.com.objectos.way");
 
-  private final PagesBaseDir pagesBaseDir;
+    URL url = Resources.getResource(getClass(), "Views.txt");
+    String txt = Resources.toString(url, Charsets.UTF_8);
 
-  @Inject
-  public MustachesGuice(PagesBaseDir pagesBaseDir) {
-    this.mustacheFactory = pagesBaseDir.newMustacheFactory();
-    this.pagesBaseDir = pagesBaseDir;
-  }
+    String res = baseDir.get("view/Views.txt");
 
-  @Override
-  public Mustache compile(Class<?> templateClass) {
-    String name = pagesBaseDir.toRelative(templateClass);
-    return mustacheFactory.compile(name + ".mustache");
+    assertThat(res, equalTo(txt));
   }
 
 }

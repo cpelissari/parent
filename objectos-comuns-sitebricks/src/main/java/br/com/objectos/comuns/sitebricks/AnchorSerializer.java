@@ -21,30 +21,25 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@JsonSerialize(using = StageUI.Serializer.class)
-public enum StageUI {
+public class AnchorSerializer extends JsonSerializer<Anchor> {
 
-  DEVELOPMENT,
+  @Override
+  public void serialize(Anchor value, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException, JsonProcessingException {
 
-  PRODUCTION;
+    jgen.writeStartObject();
 
-  public static class Serializer extends JsonSerializer<StageUI> {
+    jgen.writeStringField("text", value.getText());
+    jgen.writeStringField("url", value.getUrl());
 
-    @Override
-    public void serialize(StageUI value, JsonGenerator jgen, SerializerProvider provider)
-        throws IOException, JsonProcessingException {
+    jgen.writeBooleanField("first", value.isFirst());
+    jgen.writeBooleanField("last", value.isLast());
 
-      jgen.writeStartObject();
-      jgen.writeBooleanField("development", DEVELOPMENT.equals(value));
-      jgen.writeBooleanField("production", PRODUCTION.equals(value));
-      jgen.writeEndObject();
-
-    }
+    jgen.writeEndObject();
 
   }
 

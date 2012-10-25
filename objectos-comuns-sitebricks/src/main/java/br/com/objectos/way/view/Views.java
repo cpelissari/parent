@@ -15,30 +15,45 @@
  */
 package br.com.objectos.way.view;
 
+import static com.google.common.collect.Maps.newHashMap;
+
+import java.util.Map;
+import java.util.Set;
+
 import br.com.objectos.comuns.sitebricks.json.Context;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Module;
-import com.google.sitebricks.headless.Reply;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@ImplementedBy(PagesGuice.class)
-public abstract class Pages {
+@ImplementedBy(ViewsGuice.class)
+public abstract class Views {
 
   public static Module atPackage(final String pkgName) {
     return new AbstractModule() {
       @Override
       protected void configure() {
-        bind(PagesBaseDir.class).toInstance(PagesBaseDir.atPackage(pkgName));
+        bind(ViewsBaseDir.class).toInstance(ViewsBaseDir.atPackage(pkgName));
       }
     };
   }
 
-  public abstract Reply<?> get(Class<?> templateClass, Context context);
+  public abstract String get(String name);
 
-  public abstract Reply<?> post(Class<?> templateClass, Context context);
+  Context populate(Context context, Set<String> viewSet) {
+    Map<Object, Object> views = newHashMap();
+
+    for (String view : viewSet) {
+      String html = get(view);
+      views.put(view, html);
+    }
+
+    context.put("views", views);
+
+    return context;
+  }
 
 }

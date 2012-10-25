@@ -6,10 +6,14 @@
  */
 package br.com.objectos.comuns.sitebricks;
 
+import java.util.List;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 public interface Page {
+
+  List<Anchor> getAnchors();
 
   String getTitle();
 

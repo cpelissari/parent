@@ -19,12 +19,16 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import br.com.objectos.comuns.sitebricks.Html;
+import br.com.objectos.comuns.sitebricks.Mimes;
 import br.com.objectos.comuns.sitebricks.json.Context;
 
 import com.github.mustachejava.Mustache;
@@ -38,35 +42,55 @@ import com.google.sitebricks.headless.Reply;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Singleton
-class PagesGuice implements Pages {
+class PagesGuice extends Pages {
 
   private final Mustaches mustaches;
 
   private final ObjectMapper objectMapper;
 
+  private final Views views;
+
   @Inject
-  public PagesGuice(Mustaches mustaches, ObjectMapper objectMapper) {
+  public PagesGuice(Mustaches mustaches, ObjectMapper objectMapper, Views views) {
     this.mustaches = mustaches;
     this.objectMapper = objectMapper;
+    this.views = views;
   }
 
   @Override
   public Reply<?> get(Class<?> templateClass, Context context) {
-    String className = templateClass.getName();
-    String html = render(className.replace('.', '/'), context);
-    return Reply.with(html).as(Html.class);
+    Response response = new Response(templateClass, context);
+    return Reply.with(response.html).as(Html.class);
   }
 
   @Override
-  public Reply<?> post(Context context) {
-    String json = toJson(context);
-    return Reply.with(json).as(Json.class).type("application/json; charset=utf8");
+  public Reply<?> post(Class<?> templateClass, Context context) {
+    Response response = new Response(templateClass, context);
+    return Reply.with(response.json).as(Json.class).type(Mimes.APPLICATION_JSON_UTF8);
   }
 
-  private String render(String template, Context context) {
+  private class Response {
+
+    final String html;
+    final String json;
+
+    public Response(Class<?> templateClass, Context context) {
+      String html = render(templateClass, context);
+      Document doc = Jsoup.parse(html);
+
+      Set<String> viewSet = Tags.extractTemplates(doc);
+      views.populate(context, viewSet);
+
+      this.json = toJson(context);
+      this.html = Tags.appendContext(doc, json);
+    }
+
+  }
+
+  private String render(Class<?> templateClass, Context context) {
     try {
 
-      Mustache mustache = mustaches.compile(template);
+      Mustache mustache = mustaches.compile(templateClass);
 
       StringWriter writer = new StringWriter();
       Map<?, ?> scope = toMustacheScope(context);
