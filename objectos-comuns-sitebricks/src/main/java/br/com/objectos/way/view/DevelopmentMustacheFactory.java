@@ -17,35 +17,32 @@ package br.com.objectos.way.view;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Singleton
-class MustachesGuice implements Mustaches {
+class DevelopmentMustacheFactory extends DefaultMustacheFactory {
 
-  private final MustacheFactory mustacheFactory;
-
-  private final PagesBaseDir pagesBaseDir;
-
-  @Inject
-  public MustachesGuice(PagesBaseDir pagesBaseDir) {
-    this.mustacheFactory = newMustacheFactory(pagesBaseDir);
-    this.pagesBaseDir = pagesBaseDir;
+  public DevelopmentMustacheFactory(String resourceRoot) {
+    super(resourceRoot);
   }
 
   @Override
-  public Mustache compile(Class<?> templateClass) {
-    String name = pagesBaseDir.toRelative(templateClass);
-    return mustacheFactory.compile(name + ".mustache");
+  protected LoadingCache<String, Mustache> createMustacheCache() {
+    return CacheBuilder
+        .newBuilder()
+        .maximumSize(0)
+        .build(new MustacheCacheLoader());
   }
 
-  MustacheFactory newMustacheFactory(PagesBaseDir pagesBaseDir) {
-    String resourceRoot = pagesBaseDir.getBaseDir();
-    return new DefaultMustacheFactory(resourceRoot);
+  private class MustacheCacheLoader extends CacheLoader<String, Mustache> {
+    @Override
+    public Mustache load(String key) throws Exception {
+      return mc.compile(key);
+    }
   }
 
 }

@@ -15,9 +15,6 @@
  */
 package br.com.objectos.way.view;
 
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.MustacheFactory;
-
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
@@ -48,8 +45,8 @@ class PagesBaseDir {
     return fileName.substring(baseDir.length());
   }
 
-  MustacheFactory newMustacheFactory() {
-    return new DefaultMustacheFactory(baseDir);
+  String getBaseDir() {
+    return baseDir;
   }
 
 }

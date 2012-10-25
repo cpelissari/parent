@@ -24,8 +24,6 @@ import java.util.Set;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import br.com.objectos.comuns.sitebricks.Html;
 import br.com.objectos.comuns.sitebricks.Mimes;
@@ -76,13 +74,12 @@ class PagesGuice extends Pages {
 
     public Response(Class<?> templateClass, Context context) {
       String html = render(templateClass, context);
-      Document doc = Jsoup.parse(html);
 
-      Set<String> viewSet = Tags.extractTemplates(doc);
+      Set<String> viewSet = Tags.extractTemplates(html);
       views.populate(context, viewSet);
 
       this.json = toJson(context);
-      this.html = Tags.appendContext(doc, json);
+      this.html = Tags.appendContext(html, json);
     }
 
   }

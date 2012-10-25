@@ -15,37 +15,23 @@
  */
 package br.com.objectos.way.view;
 
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Singleton
-class MustachesGuice implements Mustaches {
-
-  private final MustacheFactory mustacheFactory;
-
-  private final PagesBaseDir pagesBaseDir;
+public class DevelopmentMustaches extends MustachesGuice {
 
   @Inject
-  public MustachesGuice(PagesBaseDir pagesBaseDir) {
-    this.mustacheFactory = newMustacheFactory(pagesBaseDir);
-    this.pagesBaseDir = pagesBaseDir;
+  public DevelopmentMustaches(PagesBaseDir pagesBaseDir) {
+    super(pagesBaseDir);
   }
 
   @Override
-  public Mustache compile(Class<?> templateClass) {
-    String name = pagesBaseDir.toRelative(templateClass);
-    return mustacheFactory.compile(name + ".mustache");
-  }
-
   MustacheFactory newMustacheFactory(PagesBaseDir pagesBaseDir) {
     String resourceRoot = pagesBaseDir.getBaseDir();
-    return new DefaultMustacheFactory(resourceRoot);
+    return new DevelopmentMustacheFactory(resourceRoot);
   }
 
 }

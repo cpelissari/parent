@@ -23,9 +23,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.Test;
+
+import br.com.objectos.comuns.sitebricks.json.Context;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -36,10 +37,12 @@ import com.google.common.io.Resources;
 @Test
 public class TagsTest {
 
-  public void extract_templates() throws IOException {
-    Document doc = parse("/views/tags.html");
+  private final ObjectMapper mapper = new ObjectMapper();
 
-    Set<String> res = Tags.extractTemplates(doc);
+  public void extract_templates() throws IOException {
+    String html = read("/views/tags.html");
+
+    Set<String> res = Tags.extractTemplates(html);
     assertThat(res.size(), equalTo(3));
     assertTrue(res.contains("hd.mustache"));
     assertTrue(res.contains("bd.mustache"));
@@ -47,17 +50,23 @@ public class TagsTest {
   }
 
   public void extract_templates_empty() throws IOException {
-    Document doc = parse("/views/tags-empty.html");
+    String html = read("/views/tags-empty.html");
 
-    Set<String> res = Tags.extractTemplates(doc);
+    Set<String> res = Tags.extractTemplates(html);
     assertThat(res.size(), equalTo(0));
   }
 
-  private Document parse(String resource) throws IOException {
-    String html = read(resource);
-    Document doc = Jsoup.parse(html);
-    doc.outputSettings().prettyPrint(false);
-    return doc;
+  public void append_context() throws IOException {
+    String before = read("/views/context-before.html");
+    String after = read("/views/context-after.html");
+
+    Context context = Context.of();
+    context.put("msg", "Hello world!");
+    String json = mapper.writeValueAsString(context);
+
+    String res = Tags.appendContext(before, json);
+
+    assertThat(res, equalTo(after));
   }
 
   private String read(String resource) throws IOException {

@@ -16,42 +16,22 @@
 package br.com.objectos.way.view;
 
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Singleton
-class ViewsGuice extends Views {
-
-  private final LoadingCache<String, String> cache;
-
-  private final ViewsBaseDir baseDir;
+public class DevelopmentViews extends ViewsGuice {
 
   @Inject
-  public ViewsGuice(ViewsBaseDir baseDir) {
-    this.cache = newCacheBuilder()
-        .build(new ViewLoader());
-    this.baseDir = baseDir;
+  public DevelopmentViews(ViewsBaseDir baseDir) {
+    super(baseDir);
   }
 
   @Override
-  public String get(String name) {
-    return cache.getUnchecked(name);
-  }
-
   protected CacheBuilder<Object, Object> newCacheBuilder() {
-    return CacheBuilder.newBuilder();
-  }
-
-  private class ViewLoader extends CacheLoader<String, String> {
-    @Override
-    public String load(String key) throws Exception {
-      return baseDir.get(key);
-    }
+    return super.newCacheBuilder()
+        .maximumSize(0);
   }
 
 }

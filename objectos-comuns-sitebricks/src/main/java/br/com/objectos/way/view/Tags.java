@@ -16,7 +16,9 @@
 package br.com.objectos.way.view;
 
 import java.util.Set;
+import java.util.regex.Matcher;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -30,26 +32,25 @@ import com.google.common.collect.Iterables;
  */
 class Tags {
 
-  public static Set<String> extractTemplates(Document doc) {
+  public static Set<String> extractTemplates(String html) {
+    Document doc = Jsoup.parse(html);
+
     return ImmutableSet.<String> builder()
         .addAll(parseAttributeKey(doc, "data-way-template"))
         .addAll(parseAttributeKey(doc, "data-way-render"))
         .build();
   }
 
-  public static String appendContext(Document doc, String json) {
-    Element head = doc.head();
+  public static String appendContext(String html, String json) {
 
-    StringBuilder html = new StringBuilder();
-    html.append("<script type=\"text/javascript\">");
-    html.append("var context = ");
-    html.append(json);
-    html.append(";");
-    html.append("</script>");
+    StringBuilder script = new StringBuilder();
+    script.append("<head><script type=\"text/javascript\">");
+    script.append("var context = ");
+    script.append(json);
+    script.append(";");
+    script.append("</script>");
 
-    head.prepend(html.toString());
-
-    return doc.html();
+    return html.replaceFirst("<head>", Matcher.quoteReplacement(script.toString()));
   }
 
   private static Iterable<String> parseAttributeKey(Document doc, String attributeKey) {
