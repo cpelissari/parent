@@ -46,14 +46,23 @@ public abstract class Views {
   Context populate(Context context, Set<String> viewSet) {
     Map<Object, Object> views = newHashMap();
 
-    for (String view : viewSet) {
-      String html = get(view);
-      views.put(view, html);
-    }
+    recurseViewMap(views, viewSet);
 
     context.put("views", views);
 
     return context;
+  }
+
+  private void recurseViewMap(Map<Object, Object> views, Set<String> viewSet) {
+    for (String view : viewSet) {
+      String html = get(view);
+      views.put(view, html);
+
+      Set<String> subTemplates = Tags.extractTemplates(html);
+      if (!subTemplates.isEmpty()) {
+        recurseViewMap(views, subTemplates);
+      }
+    }
   }
 
 }
