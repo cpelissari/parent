@@ -24,20 +24,25 @@ import java.net.URL;
 import java.util.Set;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
+import br.com.objectos.comuns.sitebricks.ObjectosComunsSitebricksTestModule;
 import br.com.objectos.comuns.sitebricks.json.Context;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.google.inject.Inject;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 @Test
+@Guice(modules = ObjectosComunsSitebricksTestModule.class)
 public class TagsTest {
 
-  private final ObjectMapper mapper = new ObjectMapper();
+  @Inject
+  private ObjectMapper mapper;
 
   public void extract_templates() throws IOException {
     String html = read("/views/tags.html");
