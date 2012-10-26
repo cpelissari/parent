@@ -44,6 +44,11 @@ class ViewsBaseDir {
       String viewName = baseDir + view;
       ClassLoader ccl = Thread.currentThread().getContextClassLoader();
       URL url = ccl.getResource(viewName);
+
+      if (url == null) {
+        url = Resources.getResource(getClass(), viewName);
+      }
+
       return Resources.toString(url, Charsets.UTF_8);
     } catch (IOException e) {
       throw new IllegalArgumentException("Could not load view at " + view);
