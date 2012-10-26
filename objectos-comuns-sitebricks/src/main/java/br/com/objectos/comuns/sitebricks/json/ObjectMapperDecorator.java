@@ -53,18 +53,20 @@ public class ObjectMapperDecorator {
             .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
         );
 
-    mapper.registerModule(new CustomModule());
+    mapper.registerModule(new CustomModule(mapper));
 
     return mapper;
   }
 
   private class CustomModule extends SimpleModule {
-    public CustomModule() {
+
+    public CustomModule(ObjectMapper mapper) {
       super("CustomModule", new Version(0, 1, 1, "duh"));
 
       // objectos comuns base
       addSerializer(Cep.class, new CepSerializer());
       addSerializer(Cnpj.class, new CnpjSerializer());
+      addSerializer(Context.class, new ContextSerializer(mapper));
       addSerializer(Cpf.class, new CpfSerializer());
       addSerializer(Url.class, new UrlSerializer(baseUrl));
 
@@ -75,6 +77,7 @@ public class ObjectMapperDecorator {
       // joda
       addSerializer(LocalDate.class, new LocalDateSerializer());
     }
+
   }
 
 }

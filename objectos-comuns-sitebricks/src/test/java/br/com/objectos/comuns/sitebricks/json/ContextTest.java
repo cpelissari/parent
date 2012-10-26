@@ -58,6 +58,16 @@ public class ContextTest {
     assertThat(res, equalTo("{\"name\":\"abc\",\"number\":123}"));
   }
 
+  public void merge_test() throws JsonGenerationException, JsonMappingException, IOException {
+    Context context = Context.of(new Pojo("abc", 123));
+    context.put("m", new Pojo("n", 9));
+
+    String res = mapper.writeValueAsString(context);
+
+    assertThat(res,
+        equalTo("{\"name\":\"abc\",\"number\":123,\"m\":{\"name\":\"n\",\"number\":9}}"));
+  }
+
   public static class Pojo {
     String name;
     int number;

@@ -17,24 +17,16 @@ package br.com.objectos.comuns.sitebricks.json;
 
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
-import java.io.IOException;
 import java.util.Map;
-
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@JsonSerialize(using = Context.Serializer.class)
 public class Context {
 
-  private final Object root;
+  final Object root;
 
-  private final Map<String, Object> map = newLinkedHashMap();
+  final Map<String, Object> map = newLinkedHashMap();
 
   private Context() {
     this.root = null;
@@ -53,26 +45,6 @@ public class Context {
 
   public void put(String key, Object value) {
     map.put(key, value);
-  }
-
-  public static class Serializer extends JsonSerializer<Context> {
-
-    @Override
-    public void serialize(Context value, JsonGenerator jgen, SerializerProvider provider)
-        throws IOException, JsonProcessingException {
-
-      Object root = value.root;
-      if (root != null) {
-        jgen.writeObject(root);
-      }
-
-      Map<String, Object> map = value.map;
-      if (!map.isEmpty()) {
-        jgen.writeObject(map);
-      }
-
-    }
-
   }
 
 }

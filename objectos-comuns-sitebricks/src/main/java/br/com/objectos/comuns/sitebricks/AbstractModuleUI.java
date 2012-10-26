@@ -15,7 +15,6 @@
  */
 package br.com.objectos.comuns.sitebricks;
 
-
 import com.google.sitebricks.SitebricksModule;
 import com.google.sitebricks.SitebricksServletModule;
 
@@ -32,6 +31,8 @@ public abstract class AbstractModuleUI extends SitebricksModule {
 
   @Override
   protected final void configureSitebricks() {
+    bind(StageUI.class).toInstance(stage);
+
     bindCommon();
     bindApi();
     bindBricks();
