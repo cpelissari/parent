@@ -14,6 +14,9 @@
 	 <connection>scm:git:git://objectos/objectos-comuns-base.git</connection>
 	 <developerConnection>scm:git:git@github.com:objectos/objectos-comuns-base.git</developerConnection>
   </scm>
+  <properties>
+  	<uno.path>/usr/lib64/openoffice/program/</uno.path>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.openoffice</groupId>

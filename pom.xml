@@ -473,6 +473,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludedGroups>broken</excludedGroups>
+					<additionalClasspathElements>
+						<additionalClasspathElement>${uno.path}</additionalClasspathElement>
+					</additionalClasspathElements>
 				</configuration>
 			</plugin>
 		</plugins>
