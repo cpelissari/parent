@@ -71,7 +71,7 @@
 		<pdf-renderer.version>1.8</pdf-renderer.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<testng.version>6.7</testng.version>
-		<uno.version>2.1.0</uno.version>
+		<uno.version>3.3</uno.version>
 	</properties>
 	<profiles>
 		<profile>

@@ -15,6 +15,12 @@
  */
 package br.com.objectos.comuns.uno.base;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+import java.io.File;
+import java.io.IOException;
+
 import org.testng.annotations.Test;
 
 import com.sun.star.beans.PropertyValue;
@@ -24,9 +30,13 @@ import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XStorable;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.text.XText;
+import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.util.XCloseable;
 
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
@@ -34,33 +44,67 @@ import com.sun.star.uno.XComponentContext;
 @Test
 public class TesteDeGerarDocumentoPdf {
 
-  public void teste_uno_abrir_documento() throws BootstrapException, Exception {
+  public void teste_uno_abrir_documento() throws BootstrapException, Exception, IOException {
+    String texto1 = "###String no 001###";
+    String texto2 = "###String no 002###";
+    String entradaDoc = "src/test/resources/docWord972000Xp.doc";
+    String saidaPdf = "file://src/test/resources/SAIDA.pdf";
+    String contraPdf = "src/test/resources/CONTRA.pdf";
 
-    XComponentContext context = Bootstrap.bootstrap();
-    XMultiComponentFactory serviceManager = context.getServiceManager();
+    // -- Prepara contexto
 
-    Object oDesktop = serviceManager.createInstanceWithContext("com.sun.star.frame.Desktop",
-        context);
+    XComponentContext localContext = Bootstrap.bootstrap();
+    XMultiComponentFactory serviceManager = localContext.getServiceManager();
 
-    XComponentLoader xCLoader = (XComponentLoader) UnoRuntime.queryInterface(
-        XComponentLoader.class, oDesktop);
+    Object oDesktop = serviceManager
+        .createInstanceWithContext("com.sun.star.frame.Desktop", localContext);
 
-    XComponent document = xCLoader.loadComponentFromURL("private:factory/swriter", "_blank", 0,
-        new PropertyValue[0]);
+    PropertyValue[] xValues = new PropertyValue[1];
+    xValues[0] = new PropertyValue();
+    xValues[0].Name = "Hidden";
+    xValues[0].Value = true;
 
-    String caminho = "src/test/resources/Arquivo.odt";
+    // -- Carrega documento
 
-    XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
+    XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, oDesktop);
+    XComponent document = xCLoader.loadComponentFromURL(appUri() + entradaDoc, "_blank", 0,
+        xValues);
 
-    PropertyValue[] store = new PropertyValue[0];
-    xStorable.storeAsURL(caminho, store);
+    // -- Insere String
 
-    store = new PropertyValue[1];
-    store[0] = new PropertyValue();
-    store[0].Name = "FilterName";
-    store[0].Value = "writer_pdf_Export";
+    XTextDocument xTextDocument = UnoRuntime
+        .queryInterface(XTextDocument.class, document);
 
-    xStorable.storeToURL("src/test/resources/Arquivo.pdf", store);
+    XText xText = xTextDocument.getText();
+    XTextRange start = xText.getStart();
+    XTextRange end = xText.getEnd();
+
+    xText.insertString(start, texto1, false);
+    xText.insertString(end, texto2, false);
+
+    // -- Salvar documento em pdf
+
+    XStorable xStorable = UnoRuntime.queryInterface(XStorable.class, document);
+    PropertyValue[] storeProps = new PropertyValue[1];
+    storeProps[0] = new PropertyValue();
+    storeProps[0].Name = "FilterName";
+    storeProps[0].Value = "writer_pdf_Export";
+    xStorable.storeToURL(saidaPdf, storeProps);
+
+    // -- Fecha documento
+
+    XCloseable xCloseable = UnoRuntime.queryInterface(XCloseable.class, document);
+    xCloseable.close(true);
+    String res = PdfToString.fromFile(saidaPdf.substring(7));
+    assertThat(PdfToString.fromFile(contraPdf), equalTo(res));
+
+    File file = new File("src/test/resources/.~lock.SAIDA.pdf#");
+    file.delete();
+
+  }
+
+  private String appUri() {
+    return "file://" + new File("").getAbsolutePath() + "/";
   }
 
 }
