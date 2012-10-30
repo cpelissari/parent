@@ -24,15 +24,12 @@ import java.io.IOException;
 import org.testng.annotations.Test;
 
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XStorable;
 import com.sun.star.lang.XComponent;
-import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XCloseable;
 
 /**
@@ -47,11 +44,7 @@ public class TesteApiDeExportarWordParaPdf {
     String saidaPdf = "file:///tmp/SAIDA.pdf";
     String contraPdf = "src/test/resources/CONTRA.pdf";
 
-    XComponentContext localContext = Bootstrap.bootstrap();
-    XMultiComponentFactory serviceManager = localContext.getServiceManager();
-
-    Object oDesktop = serviceManager
-        .createInstanceWithContext("com.sun.star.frame.Desktop", localContext);
+    Object oDesktop = InitOfficeService.byLocal();
 
     PropertyValue[] xValues = new PropertyValue[1];
     xValues[0] = new PropertyValue();

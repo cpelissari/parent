@@ -23,15 +23,12 @@ import java.io.File;
 import org.testng.annotations.Test;
 
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XStorable;
 import com.sun.star.lang.XComponent;
-import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XCloseable;
 
 /**
@@ -45,11 +42,7 @@ public class TesteApiDeInicializarAlterarSalvarOdt {
     String res = "file:///tmp/saida.odt";
     String texto = "###TEXTO INSERIDO NO TESTE###";
 
-    XComponentContext localContext = Bootstrap.bootstrap();
-    XMultiComponentFactory serviceManager = localContext.getServiceManager();
-
-    Object oDesktop = serviceManager
-        .createInstanceWithContext("com.sun.star.frame.Desktop", localContext);
+    Object oDesktop = InitOfficeService.byLocal();
 
     XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, oDesktop);
     XComponent document = xCLoader.loadComponentFromURL("private:factory/swriter", "_blank", 0,

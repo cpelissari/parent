@@ -24,16 +24,13 @@ import java.io.IOException;
 import org.testng.annotations.Test;
 
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XStorable;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
-import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XCloseable;
 import com.sun.star.util.XReplaceDescriptor;
 import com.sun.star.util.XReplaceable;
@@ -53,13 +50,9 @@ public class TesteApiDeSubstituirTagNoTexto {
     String tagNome = "%NOME%";
     String tagRg = "%RG%";
     String nome = "JOSE DA SILVA";
-    String rg = "253966863";
+    String rg = "s253966863";
 
-    XComponentContext localContext = Bootstrap.bootstrap();
-    XMultiComponentFactory serviceManager = localContext.getServiceManager();
-
-    Object oDesktop = serviceManager
-        .createInstanceWithContext("com.sun.star.frame.Desktop", localContext);
+    Object oDesktop = InitOfficeService.byLocal();
 
     XComponent document = loadFile(appUri() + entradaDoc, oDesktop);
 
@@ -100,7 +93,7 @@ public class TesteApiDeSubstituirTagNoTexto {
     PropertyValue[] xValues = new PropertyValue[1];
     xValues[0] = new PropertyValue();
     xValues[0].Name = "Hidden";
-    xValues[0].Value = true;
+    xValues[0].Value = false;
 
     XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, service);
     XComponent document = xCLoader.loadComponentFromURL(uri, "_blank", 0,
