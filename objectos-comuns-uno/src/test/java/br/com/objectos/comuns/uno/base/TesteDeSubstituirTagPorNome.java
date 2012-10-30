@@ -28,30 +28,31 @@ import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XStorable;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
-import com.sun.star.text.XText;
-import com.sun.star.text.XTextDocument;
-import com.sun.star.text.XTextRange;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XCloseable;
+import com.sun.star.util.XReplaceDescriptor;
+import com.sun.star.util.XReplaceable;
 
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
 @Test
-public class TesteDeGerarDocumentoPdf {
+public class TesteDeSubstituirTagPorNome {
 
-  public void teste_uno_abrir_documento() throws BootstrapException, Exception, IOException {
-    String texto1 = "###String no 001###";
-    String texto2 = "###String no 002###";
-    String entradaDoc = "src/test/resources/docWord972000Xp.doc";
-    String saidaPdf = "file://src/test/resources/SAIDA.pdf";
+  public void abrir_documento_trocar_tags() throws BootstrapException, Exception, IOException {
+    String entradaDoc = "src/test/resources/contratoComTags.doc";
+    String saidaPdf = "file:///tmp/contratoComTagsRes.pdf";
     String contraPdf = "src/test/resources/CONTRA.pdf";
 
-    // -- Prepara contexto
+    String tagNome = "%NOME%";
+    String tagRg = "%RG%";
+    String nome = "JOSE DA SILVA";
+    String rg = "253966863";
 
     XComponentContext localContext = Bootstrap.bootstrap();
     XMultiComponentFactory serviceManager = localContext.getServiceManager();
@@ -59,30 +60,19 @@ public class TesteDeGerarDocumentoPdf {
     Object oDesktop = serviceManager
         .createInstanceWithContext("com.sun.star.frame.Desktop", localContext);
 
-    PropertyValue[] xValues = new PropertyValue[1];
-    xValues[0] = new PropertyValue();
-    xValues[0].Name = "Hidden";
-    xValues[0].Value = true;
+    XComponent document = loadFile(appUri() + entradaDoc, oDesktop);
 
-    // -- Carrega documento
+    XReplaceable xReplaceable = UnoRuntime.queryInterface(XReplaceable.class, document);
+    XReplaceDescriptor replace1 = xReplaceable.createReplaceDescriptor();
+    XReplaceDescriptor replace2 = xReplaceable.createReplaceDescriptor();
 
-    XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, oDesktop);
-    XComponent document = xCLoader.loadComponentFromURL(appUri() + entradaDoc, "_blank", 0,
-        xValues);
+    replace1.setSearchString(tagNome);
+    replace1.setReplaceString(nome);
+    replace2.setSearchString(tagRg);
+    replace2.setReplaceString(rg);
 
-    // -- Insere String
-
-    XTextDocument xTextDocument = UnoRuntime
-        .queryInterface(XTextDocument.class, document);
-
-    XText xText = xTextDocument.getText();
-    XTextRange start = xText.getStart();
-    XTextRange end = xText.getEnd();
-
-    xText.insertString(start, texto1, false);
-    xText.insertString(end, texto2, false);
-
-    // -- Salvar documento em pdf
+    xReplaceable.replaceAll(replace1);
+    xReplaceable.replaceAll(replace2);
 
     XStorable xStorable = UnoRuntime.queryInterface(XStorable.class, document);
     PropertyValue[] storeProps = new PropertyValue[1];
@@ -91,20 +81,31 @@ public class TesteDeGerarDocumentoPdf {
     storeProps[0].Value = "writer_pdf_Export";
     xStorable.storeToURL(saidaPdf, storeProps);
 
-    // -- Fecha documento
-
     XCloseable xCloseable = UnoRuntime.queryInterface(XCloseable.class, document);
     xCloseable.close(true);
-    String res = PdfToString.fromFile(saidaPdf.substring(7));
-    assertThat(PdfToString.fromFile(contraPdf), equalTo(res));
 
-    File file = new File("src/test/resources/.~lock.SAIDA.pdf#");
-    file.delete();
+    String res = PdfToString.fromFile(saidaPdf);
+    String prova = PdfToString.fromFile(contraPdf);
 
+    assertThat(res, equalTo(prova));
   }
 
   private String appUri() {
     return "file://" + new File("").getAbsolutePath() + "/";
+  }
+
+  private XComponent loadFile(String uri, Object service) throws com.sun.star.io.IOException,
+      IllegalArgumentException {
+    PropertyValue[] xValues = new PropertyValue[1];
+    xValues[0] = new PropertyValue();
+    xValues[0].Name = "Hidden";
+    xValues[0].Value = true;
+
+    XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, service);
+    XComponent document = xCLoader.loadComponentFromURL(uri, "_blank", 0,
+        xValues);
+
+    return document;
   }
 
 }

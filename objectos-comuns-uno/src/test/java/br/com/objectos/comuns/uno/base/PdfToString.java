@@ -32,11 +32,11 @@ public class PdfToString {
     StringBuilder text1 = new StringBuilder();
 
     while (tokeniser.nextToken()) {
-      if (tokeniser.getTokenType() == PRTokeniser.TokenType.STRING)
-        text1.append(tokeniser.getStringValue());
+      if ((tokeniser.getTokenType() == PRTokeniser.TokenType.STRING)) {
+        String value = tokeniser.getStringValue();
+        text1.append(value);
+      }
     }
-
     return text1.toString();
   }
-
 }
