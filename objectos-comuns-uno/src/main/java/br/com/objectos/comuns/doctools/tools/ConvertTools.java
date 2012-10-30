@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.comuns.uno.tools;
+package br.com.objectos.comuns.doctools.tools;
 
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
@@ -22,10 +22,5 @@ public interface ConvertTools {
 
   byte[] toPdf();
 
-  byte[] toOdt();
-
-  byte[] toDoc();
-
-  byte[] toDocX();
-
+  void toPdf(String fileName);
 }

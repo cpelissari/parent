@@ -9,7 +9,7 @@
     </parent>
 	<modelVersion>4.0.0</modelVersion>
   <artifactId>objectos-comuns-uno</artifactId>
-  <name>objectos comuns :: uno</name>  
+  <name>objectos comuns :: doctools</name>  
   <scm>
 	 <connection>scm:git:git://objectos/objectos-comuns-base.git</connection>
 	 <developerConnection>scm:git:git@github.com:objectos/objectos-comuns-base.git</developerConnection>
