@@ -15,30 +15,21 @@
  */
 package br.com.objectos.comuns.documentos.base;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.io.IOException;
-
-import org.testng.annotations.Test;
-
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
-@Test
-public class TesteDeWrapperDeAbrirDocumentoWord {
+public class DocumentImpl implements Document {
 
-  public void deve_abrir_documento_word_e_salvar_em_odt() throws IOException {
-    String prova = "src/test/resources/docWord972000Xp.pdf";
-    String origem = "src/test/resources/docWord972000Xp.doc";
-    String destino = "/tmp/resultado.pdf";
+  private Object oDesktop;
 
-    Documento documento = new DocumentoImpl();
-    documento.toPdf();
+  @Override
+  public void abrir(byte[] arquivo) {
 
-    String contra = PdfToString.fromFile(prova);
-    String res = PdfToString.fromFile(destino);
-    assertThat(res, equalTo(contra));
+  }
+
+  @Override
+  public byte[] toPdf() {
+    return null;
   }
 
 }

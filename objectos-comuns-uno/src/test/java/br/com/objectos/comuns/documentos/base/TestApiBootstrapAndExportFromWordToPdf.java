@@ -36,15 +36,15 @@ import com.sun.star.util.XCloseable;
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
 @Test
-public class TesteApiDeExportarWordParaPdf {
+public class TestApiBootstrapAndExportFromWordToPdf {
 
-  public void teste_uno_abrir_documento_word_e_salvar_em_pdf() throws BootstrapException,
+  public void open_document_and_save_int_pdf_format() throws BootstrapException,
       Exception, IOException {
     String entradaDoc = "src/test/resources/docWord972000Xp.doc";
     String saidaPdf = "file:///tmp/SAIDA.pdf";
     String contraPdf = "src/test/resources/CONTRA.pdf";
 
-    Object oDesktop = ServicoOffice.iniciarRemoto("localhost", 8100);
+    Object oDesktop = ServiceFactoring.iniciarRemoto("localhost", 8100);
 
     PropertyValue[] xValues = new PropertyValue[1];
     xValues[0] = new PropertyValue();

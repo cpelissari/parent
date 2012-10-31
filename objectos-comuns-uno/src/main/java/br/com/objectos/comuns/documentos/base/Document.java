@@ -18,18 +18,10 @@ package br.com.objectos.comuns.documentos.base;
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
-public class DocumentoImpl implements Documento {
+public interface Document {
 
-  private Object oDesktop;
+  void abrir(byte[] arquivo);
 
-  @Override
-  public void abrir(byte[] arquivo) {
-
-  }
-
-  @Override
-  public byte[] toPdf() {
-    return null;
-  }
+  byte[] toPdf();
 
 }

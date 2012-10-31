@@ -23,8 +23,6 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
-import br.com.objectos.comuns.documentos.base.ServicoOffice;
-
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;
@@ -41,29 +39,29 @@ import com.sun.star.util.XReplaceable;
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
 @Test
-public class TesteApiDeSubstituirTagNoTexto {
+public class TestApiReplaceTagAndSave {
 
-  public void abrir_documento_trocar_tags_e_salvar_em_pdf() throws BootstrapException, Exception,
+  public void should_change_tag_by_names_in_document() throws BootstrapException, Exception,
       IOException {
-    String entradaDoc = "src/test/resources/contratoComTags.doc";
-    String saidaPdf = "file:///tmp/contratoComTagsRes.pdf";
+    String inputDoc = "src/test/resources/contratoComTags.doc";
+    String outputPdf = "file:///tmp/contratoComTagsRes.pdf";
     String contraPdf = "src/test/resources/CONTRA.pdf";
 
-    String tagNome = "%NOME%";
+    String tagName = "%NOME%";
     String tagRg = "%RG%";
-    String nome = "JOSE DA SILVA";
+    String name = "JOSE DA SILVA";
     String rg = "s253966863";
 
-    Object oDesktop = ServicoOffice.iniciarRemoto("localhost", 8100);
+    Object oDesktop = ServiceFactoring.iniciarRemoto("localhost", 8100);
 
-    XComponent document = loadFile(appUri() + entradaDoc, oDesktop);
+    XComponent document = loadFile(appUri() + inputDoc, oDesktop);
 
     XReplaceable xReplaceable = UnoRuntime.queryInterface(XReplaceable.class, document);
     XReplaceDescriptor replace1 = xReplaceable.createReplaceDescriptor();
     XReplaceDescriptor replace2 = xReplaceable.createReplaceDescriptor();
 
-    replace1.setSearchString(tagNome);
-    replace1.setReplaceString(nome);
+    replace1.setSearchString(tagName);
+    replace1.setReplaceString(name);
     replace2.setSearchString(tagRg);
     replace2.setReplaceString(rg);
 
@@ -75,12 +73,12 @@ public class TesteApiDeSubstituirTagNoTexto {
     storeProps[0] = new PropertyValue();
     storeProps[0].Name = "FilterName";
     storeProps[0].Value = "writer_pdf_Export";
-    xStorable.storeToURL(saidaPdf, storeProps);
+    xStorable.storeToURL(outputPdf, storeProps);
 
     XCloseable xCloseable = UnoRuntime.queryInterface(XCloseable.class, document);
     xCloseable.close(true);
 
-    String res = PdfToString.fromFile(saidaPdf);
+    String res = PdfToString.fromFile(outputPdf);
     String prova = PdfToString.fromFile(contraPdf);
 
     assertThat(res, equalTo(prova));

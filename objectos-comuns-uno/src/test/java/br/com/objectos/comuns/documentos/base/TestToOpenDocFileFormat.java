@@ -15,13 +15,29 @@
  */
 package br.com.objectos.comuns.documentos.base;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+import java.io.IOException;
+
+import org.testng.annotations.Test;
+
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
-public interface Documento {
+@Test
+public class TestToOpenDocFileFormat {
 
-  void abrir(byte[] arquivo);
+  public void should_open_file_and_save_int_odf_format() throws IOException {
+    String origem = "src/test/resources/docWord972000Xp.doc";
+    String destino = "/tmp/resultado.pdf";
 
-  byte[] toPdf();
+    Document documento = new DocumentImpl();
+    documento.toPdf();
+
+    String contra = PdfToString.fromFile(origem);
+    String res = PdfToString.fromFile(destino);
+    assertThat(res, equalTo(contra));
+  }
 
 }

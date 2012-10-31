@@ -28,7 +28,7 @@ import com.sun.star.uno.XComponentContext;
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
-class ServicoOffice {
+class ServiceFactoring {
 
   private static XComponentContext xComponentContext;
   private static XMultiComponentFactory xMultiComponentFactory;

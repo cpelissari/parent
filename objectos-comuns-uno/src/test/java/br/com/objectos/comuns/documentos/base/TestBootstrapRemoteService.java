@@ -22,29 +22,31 @@ import java.io.File;
 
 import org.testng.annotations.Test;
 
-import br.com.objectos.comuns.documentos.base.ServicoOffice;
+import br.com.objectos.comuns.documentos.base.ServiceFactoring;
 
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XStorable;
+import com.sun.star.io.IOException;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
+import com.sun.star.util.CloseVetoException;
 import com.sun.star.util.XCloseable;
 
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
 @Test
-public class TesteApiDeInicializarAlterarSalvarOdt {
+public class TestBootstrapRemoteService {
 
-  public void teste_de_inicializar_api_local() throws BootstrapException, Exception {
-
+  public void should_bootstrap_remote_service() throws IOException, IllegalArgumentException,
+      CloseVetoException {
     String res = "file:///tmp/saida.odt";
     String texto = "###TEXTO INSERIDO NO TESTE###";
 
-    Object oDesktop = ServicoOffice.iniciarLocal();
+    Object oDesktop = ServiceFactoring.iniciarRemoto("localhost", 8100);
 
     XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, oDesktop);
     XComponent document = xCLoader.loadComponentFromURL("private:factory/swriter", "_blank", 0,
@@ -66,6 +68,7 @@ public class TesteApiDeInicializarAlterarSalvarOdt {
     File file = new File(res.substring(7));
     assertThat(file.exists(), equalTo(true));
     assertThat(file.getName(), equalTo(res.substring(12)));
+
   }
 
 }
