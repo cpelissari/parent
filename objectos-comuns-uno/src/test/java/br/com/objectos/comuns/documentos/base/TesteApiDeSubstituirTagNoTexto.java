@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.comuns.doctools.base;
+package br.com.objectos.comuns.documentos.base;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.testng.annotations.Test;
+
+import br.com.objectos.comuns.documentos.base.ServicoOffice;
 
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.comp.helper.BootstrapException;
@@ -52,7 +54,7 @@ public class TesteApiDeSubstituirTagNoTexto {
     String nome = "JOSE DA SILVA";
     String rg = "s253966863";
 
-    Object oDesktop = InitOfficeService.byLocal();
+    Object oDesktop = ServicoOffice.iniciarRemoto("localhost", 8100);
 
     XComponent document = loadFile(appUri() + entradaDoc, oDesktop);
 
@@ -83,7 +85,6 @@ public class TesteApiDeSubstituirTagNoTexto {
 
     assertThat(res, equalTo(prova));
   }
-
   private String appUri() {
     return "file://" + new File("").getAbsolutePath() + "/";
   }

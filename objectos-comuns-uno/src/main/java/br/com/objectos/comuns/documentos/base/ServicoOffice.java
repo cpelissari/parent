@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.comuns.doctools.base;
+package br.com.objectos.comuns.documentos.base;
 
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.bridge.UnoUrlResolver;
@@ -28,12 +28,12 @@ import com.sun.star.uno.XComponentContext;
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
-class InitOfficeService {
+class ServicoOffice {
 
   private static XComponentContext xComponentContext;
   private static XMultiComponentFactory xMultiComponentFactory;
 
-  public static Object byServer(String host, int port) {
+  public static Object iniciarRemoto(String host, int port) {
     try {
       xComponentContext = Bootstrap.createInitialComponentContext(null);
 
@@ -62,7 +62,7 @@ class InitOfficeService {
     return null;
   }
 
-  public static Object byLocal() {
+  public static Object iniciarLocal() {
     try {
       xComponentContext = Bootstrap.bootstrap();
       xMultiComponentFactory = xComponentContext.getServiceManager();

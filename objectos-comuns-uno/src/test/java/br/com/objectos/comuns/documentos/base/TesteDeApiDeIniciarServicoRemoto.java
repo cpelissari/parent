@@ -13,64 +13,62 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.comuns.doctools.base;
+package br.com.objectos.comuns.documentos.base;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.testng.annotations.Test;
 
+import br.com.objectos.comuns.documentos.base.ServicoOffice;
+
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XStorable;
+import com.sun.star.io.IOException;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
-import com.sun.star.uno.Exception;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
+import com.sun.star.util.CloseVetoException;
 import com.sun.star.util.XCloseable;
 
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
 @Test
-public class TesteApiDeExportarWordParaPdf {
+public class TesteDeApiDeIniciarServicoRemoto {
 
-  public void teste_uno_abrir_documento_word_e_salvar_em_pdf() throws BootstrapException,
-      Exception, IOException {
-    String entradaDoc = "src/test/resources/docWord972000Xp.doc";
-    String saidaPdf = "file:///tmp/SAIDA.pdf";
-    String contraPdf = "src/test/resources/CONTRA.pdf";
+  public void deve_iniciar_servico_remoto() throws IOException, IllegalArgumentException,
+      CloseVetoException {
+    String res = "file:///tmp/saida.odt";
+    String texto = "###TEXTO INSERIDO NO TESTE###";
 
-    Object oDesktop = InitOfficeService.byLocal();
-
-    PropertyValue[] xValues = new PropertyValue[1];
-    xValues[0] = new PropertyValue();
-    xValues[0].Name = "Hidden";
-    xValues[0].Value = false;
+    Object oDesktop = ServicoOffice.iniciarRemoto("localhost", 8100);
 
     XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, oDesktop);
-    XComponent document = xCLoader.loadComponentFromURL(appUri() + entradaDoc, "_blank", 0,
-        xValues);
+    XComponent document = xCLoader.loadComponentFromURL("private:factory/swriter", "_blank", 0,
+        new PropertyValue[0]);
+
+    XTextDocument xTextDocument = UnoRuntime
+        .queryInterface(XTextDocument.class, document);
+
+    xTextDocument.getText()
+        .getStart()
+        .setString(texto);
 
     XStorable xStorable = UnoRuntime.queryInterface(XStorable.class, document);
-    PropertyValue[] storeProps = new PropertyValue[1];
-    storeProps[0] = new PropertyValue();
-    storeProps[0].Name = "FilterName";
-    storeProps[0].Value = "writer_pdf_Export";
-    xStorable.storeToURL(saidaPdf, storeProps);
+    xStorable.storeToURL(res, new PropertyValue[0]);
 
     XCloseable xCloseable = UnoRuntime.queryInterface(XCloseable.class, document);
     xCloseable.close(true);
-    String res = PdfToString.fromFile(saidaPdf.substring(7));
-    assertThat(PdfToString.fromFile(contraPdf), equalTo(res));
 
-  }
+    File file = new File(res.substring(7));
+    assertThat(file.exists(), equalTo(true));
+    assertThat(file.getName(), equalTo(res.substring(12)));
 
-  private String appUri() {
-    return "file://" + new File("").getAbsolutePath() + "/";
   }
 
 }

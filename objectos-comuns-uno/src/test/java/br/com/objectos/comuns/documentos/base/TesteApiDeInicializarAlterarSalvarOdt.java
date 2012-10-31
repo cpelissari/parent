@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package br.com.objectos.comuns.doctools.base;
+package br.com.objectos.comuns.documentos.base;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -22,29 +22,29 @@ import java.io.File;
 
 import org.testng.annotations.Test;
 
+import br.com.objectos.comuns.documentos.base.ServicoOffice;
+
 import com.sun.star.beans.PropertyValue;
+import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XStorable;
-import com.sun.star.io.IOException;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.util.CloseVetoException;
 import com.sun.star.util.XCloseable;
 
 /**
  * @author ricardo.murad@objectos.com.br (Ricardo Murad)
  */
 @Test
-public class TesteDeApiDeIniciarServicoRemoto {
+public class TesteApiDeInicializarAlterarSalvarOdt {
 
-  public void deve_iniciar_servico_remoto() throws IOException, IllegalArgumentException,
-      CloseVetoException {
+  public void teste_de_inicializar_api_local() throws BootstrapException, Exception {
+
     String res = "file:///tmp/saida.odt";
     String texto = "###TEXTO INSERIDO NO TESTE###";
 
-    Object oDesktop = InitOfficeService.byServer("localhost", 8100);
+    Object oDesktop = ServicoOffice.iniciarLocal();
 
     XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, oDesktop);
     XComponent document = xCLoader.loadComponentFromURL("private:factory/swriter", "_blank", 0,
@@ -66,7 +66,6 @@ public class TesteDeApiDeIniciarServicoRemoto {
     File file = new File(res.substring(7));
     assertThat(file.exists(), equalTo(true));
     assertThat(file.getName(), equalTo(res.substring(12)));
-
   }
 
 }
