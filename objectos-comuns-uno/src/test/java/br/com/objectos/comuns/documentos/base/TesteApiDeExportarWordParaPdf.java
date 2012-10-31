@@ -23,8 +23,6 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
-import br.com.objectos.comuns.documentos.base.ServicoOffice;
-
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.XComponentLoader;

@@ -22,17 +22,14 @@ public class DocumentoImpl implements Documento {
 
   private Object oDesktop;
 
-  public DocumentoImpl() {
+  @Override
+  public void abrir(byte[] arquivo) {
 
   }
 
   @Override
-  public void abrir(String path) {
-
-  }
-
-  @Override
-  public void salvarPdf(String path) {
+  public byte[] toPdf() {
+    return null;
   }
 
 }

@@ -20,8 +20,8 @@ package br.com.objectos.comuns.documentos.base;
  */
 public interface Documento {
 
-  void abrir(String path);
+  void abrir(byte[] arquivo);
 
-  void salvarPdf(String path);
+  byte[] toPdf();
 
 }

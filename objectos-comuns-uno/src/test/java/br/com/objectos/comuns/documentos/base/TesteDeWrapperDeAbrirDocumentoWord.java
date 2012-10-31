@@ -34,8 +34,7 @@ public class TesteDeWrapperDeAbrirDocumentoWord {
     String destino = "/tmp/resultado.pdf";
 
     Documento documento = new DocumentoImpl();
-    documento.abrir(origem);
-    documento.salvarPdf(destino);
+    documento.toPdf();
 
     String contra = PdfToString.fromFile(prova);
     String res = PdfToString.fromFile(destino);
