@@ -37,7 +37,7 @@ import com.sun.star.util.XCloseable;
 @Test
 public class SaveDocumentInOdfFormatTest {
 
-  public void test_bootstrap_local_uno_instalation() throws BootstrapException, Exception {
+  public void test_create_and_save_document_in_odf_format() throws BootstrapException, Exception {
     String tmpDir = System.getProperty("java.io.tmpdir");
     String res = "file://" + tmpDir + "/output.odt";
     String text = "###TEXTO INSERIDO NO TESTE###";

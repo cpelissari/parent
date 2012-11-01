@@ -40,9 +40,9 @@ public class ExportFromWordToPdfTest {
 
   public void open_document_and_save_in_pdf_format() throws BootstrapException,
       Exception, IOException {
-    String entradaDoc = "src/test/resources/docWord972000Xp.doc";
+    String inputDoc = "src/test/resources/docWord972000Xp.doc";
     String tmpDir = System.getProperty("java.io.tmpdir");
-    String saidaPdf = "file://" + tmpDir + "/output.pdf";
+    String outputPdf = "file://" + tmpDir + "/output.pdf";
     String contraPdf = "src/test/resources/docWord972000Xp.pdf";
 
     Object oDesktop = ServiceFactoring.iniciarRemoto("localhost", 8100);
@@ -53,7 +53,7 @@ public class ExportFromWordToPdfTest {
     xValues[0].Value = false;
 
     XComponentLoader xCLoader = UnoRuntime.queryInterface(XComponentLoader.class, oDesktop);
-    XComponent document = xCLoader.loadComponentFromURL(appUri() + entradaDoc, "_blank", 0,
+    XComponent document = xCLoader.loadComponentFromURL(appUri() + inputDoc, "_blank", 0,
         xValues);
 
     XStorable xStorable = UnoRuntime.queryInterface(XStorable.class, document);
@@ -61,11 +61,11 @@ public class ExportFromWordToPdfTest {
     storeProps[0] = new PropertyValue();
     storeProps[0].Name = "FilterName";
     storeProps[0].Value = "writer_pdf_Export";
-    xStorable.storeToURL(saidaPdf, storeProps);
+    xStorable.storeToURL(outputPdf, storeProps);
 
     XCloseable xCloseable = UnoRuntime.queryInterface(XCloseable.class, document);
     xCloseable.close(true);
-    String res = PdfToString.fromFile(saidaPdf.substring(7));
+    String res = PdfToString.fromFile(outputPdf.substring(7));
     assertThat(PdfToString.fromFile(contraPdf), equalTo(res));
 
   }
