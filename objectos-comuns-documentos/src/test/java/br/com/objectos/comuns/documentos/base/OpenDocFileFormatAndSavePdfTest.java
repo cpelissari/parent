@@ -33,9 +33,6 @@ public class OpenDocFileFormatAndSavePdfTest {
     String tmpDir = System.getProperty("java.io.tmpdir");
     String destino = tmpDir + "/resultado.pdf";
 
-    Document documento = new DocumentImpl();
-    documento.toPdf();
-
     String contra = PdfToString.fromFile(origem);
     String res = PdfToString.fromFile(destino);
     assertThat(res, equalTo(contra));

@@ -20,7 +20,7 @@ package br.com.objectos.comuns.documentos.base;
  */
 public interface Document {
 
-  void abrir(byte[] arquivo);
+  void open(byte[] arquivo);
 
   byte[] toPdf();
 
