@@ -15,7 +15,7 @@
 	 <developerConnection>scm:git:git@github.com:objectos/objectos-comuns-base.git</developerConnection>
   </scm>
   <properties>
-  	<uno.path>/usr/lib64/openoffice/program/</uno.path>
+  	<uno.path>/usr/lib64/openoffice/</uno.path>
   </properties>
   <build>
     <resources>
@@ -27,6 +27,18 @@
 		<filtering>true</filtering>
       </resource>
     </resources>
+    <testResources>
+      <testResource>
+	    <directory>${basedir}/src/test/resources</directory>
+	  </testResource>
+	  <testResource>
+	    <directory>${basedir}/src/test/resources</directory>
+		  <includes>
+		    <include>uno.properties</include>
+		  </includes>
+	   <filtering>true</filtering>
+	  </testResource>    
+    </testResources>
   </build>
   <dependencies>
   <dependency>
