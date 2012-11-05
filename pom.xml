@@ -14,7 +14,7 @@
 		<module>objectos-comuns-attachment</module>
 		<module>objectos-comuns-base</module>
 		<module>objectos-comuns-cnab</module>
-	    <module>objectos-comuns-documentos</module>
+	    <module>objectos-comuns-documents</module>
 		<module>objectos-comuns-fileupload</module>
 		<module>objectos-comuns-jdbc</module>
 		<module>objectos-comuns-sitebricks</module>
