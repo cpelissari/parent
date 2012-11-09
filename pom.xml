@@ -1,15 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.objectos</groupId>
 	<artifactId>objectos-comuns-parent</artifactId>
 	<packaging>pom</packaging>
-	<name>objectos comuns-parent</name>
-	<version>2.0.42-SNAPSHOT</version>
+	<name>objectos :: comuns</name>
+	<version>2.99.0-SNAPSHOT</version>
 	<scm>
 		<connection>scm:git:git://objectos/objectos-comuns-parent.git</connection>
 		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-parent.git</developerConnection>
 	</scm>
+	<modules>
+		<module>objectos-comuns-attachment</module>
+		<module>objectos-comuns-base</module>
+        <module>objectos-comuns-boleto</module>
+		<module>objectos-comuns-cnab</module>
+		<module>objectos-comuns-fileupload</module>
+		<module>objectos-comuns-io</module>
+		<module>objectos-comuns-jdbc</module>
+		<module>objectos-comuns-sitebricks</module>
+	</modules>
 	<properties>
+		<caelum.stella.version>2.0-beta1</caelum.stella.version>
 		<caucho.resin.version>3.2.1</caucho.resin.version>
 		<eclipse.lifecycle-mapping.version>1.0.0</eclipse.lifecycle-mapping.version>
 		<google.guava.version>13.0</google.guava.version>
@@ -34,21 +46,23 @@
 		<maven.sql.version>1.5</maven.sql.version>
 		<maven.surefire.version>2.8.1</maven.surefire.version>
 		<maven.war.version>2.1.1</maven.war.version>
+		<mustache.java.version>0.8.7</mustache.java.version>
 		<mysql.connector.version>5.1.21</mysql.connector.version>
 		<net.sf.ehcache.version>2.2.0</net.sf.ehcache.version>
-		<objectos.comuns.attachment.version>2.0.1</objectos.comuns.attachment.version>
-		<objectos.comuns.base.version>2.0.20</objectos.comuns.base.version>
+		<objectos.comuns.version>2.99.0-SNAPSHOT</objectos.comuns.version>
+		<objectos.comuns.attachment.version>${objectos.comuns.version}</objectos.comuns.attachment.version>
+		<objectos.comuns.base.version>${objectos.comuns.version}</objectos.comuns.base.version>
 		<objectos.comuns.cli.version>2.0.1</objectos.comuns.cli.version>
-		<objectos.comuns.cnab.version>2.0.1</objectos.comuns.cnab.version>
+		<objectos.comuns.cnab.version>${objectos.comuns.version}</objectos.comuns.cnab.version>
 		<objectos.comuns.cron.version>2.0.0</objectos.comuns.cron.version>
 		<objectos.comuns.dbunit.version>2.0.7</objectos.comuns.dbunit.version>
 		<objectos.comuns.etc.version>2.0.1</objectos.comuns.etc.version>
-		<objectos.comuns.fileupload.version>2.0.1</objectos.comuns.fileupload.version>
-		<objectos.comuns.io.version>2.0.6</objectos.comuns.io.version>
-		<objectos.comuns.jdbc.version>2.0.35</objectos.comuns.jdbc.version>
+		<objectos.comuns.fileupload.version>${objectos.comuns.version}</objectos.comuns.fileupload.version>
+		<objectos.comuns.io.version>${objectos.comuns.version}</objectos.comuns.io.version>
+		<objectos.comuns.jdbc.version>${objectos.comuns.version}</objectos.comuns.jdbc.version>
 		<objectos.comuns.jgravatar.version>1.0.0</objectos.comuns.jgravatar.version>
 		<objectos.comuns.relational.version>2.0.5</objectos.comuns.relational.version>
-		<objectos.comuns.sitebricks.version>2.0.38</objectos.comuns.sitebricks.version>
+		<objectos.comuns.sitebricks.version>${objectos.comuns.version}</objectos.comuns.sitebricks.version>
 		<objectos.comuns.sqlunit.version>2.0.4</objectos.comuns.sqlunit.version>
 		<objectos.comuns.wkhtmltopdf.version>2.0.0</objectos.comuns.wkhtmltopdf.version>
 		<org.imgscalr.version>4.2</org.imgscalr.version>
@@ -108,13 +122,13 @@
 									<configuration>
 										<target>
 
-											<copy file="${project.build.directory}/${project.artifactId}-${project.version}.war" tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}" overwrite="true" />
+											<copy file="${project.build.directory}/${project.artifactId}-${project.version}.war" tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}" overwrite="true"/>
 
 											<copy file="${basedir}/resources/jetty-context.xml" tofile="${jetty.home}/contexts/${project.artifactId}.xml" overwrite="true">
 
 												<filterset>
-													<filter token="jetty.contextPath" value="${project.contextPath}" />
-													<filter token="jetty.war" value="${project.artifactId}.war.${project.version}" />
+													<filter token="jetty.contextPath" value="${project.contextPath}"/>
+													<filter token="jetty.war" value="${project.artifactId}.war.${project.version}"/>
 												</filterset>
 
 											</copy>
@@ -328,7 +342,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -341,7 +355,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -354,7 +368,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -368,7 +382,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -381,7 +395,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -395,7 +409,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
