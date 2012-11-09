@@ -9,20 +9,16 @@
 	</parent>
 	<artifactId>objectos-comuns-attachment</artifactId>
 	<name>objectos :: comuns :: attachment</name>
-	<scm>
-		<connection>scm:git:git://objectos/objectos-comuns-attachment.git</connection>
-		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-attachment.git</developerConnection>
-	</scm>
 	<dependencies>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>objectos-comuns-base</artifactId>
-			<version>${objectos.comuns.base.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>objectos-comuns-fileupload</artifactId>
-			<version>${objectos.comuns.fileupload.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.java.dev</groupId>

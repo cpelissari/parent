@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>objectos-comuns-parent</artifactId>
@@ -7,10 +8,6 @@
 	</parent>
 	<artifactId>objectos-comuns-io</artifactId>
 	<name>objectos :: comuns :: io</name>
-	<scm>
-		<connection>scm:git:git://objectos/objectos-comuns-io.git</connection>
-		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-io.git</developerConnection>
-	</scm>
 	<properties>
 		<apache.poi.version>3.7</apache.poi.version>
 		<opencsv.version>2.3</opencsv.version>
@@ -19,7 +16,7 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>objectos-comuns-base</artifactId>
-			<version>${objectos.comuns.base.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.opencsv</groupId>

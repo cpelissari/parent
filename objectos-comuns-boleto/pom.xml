@@ -8,15 +8,11 @@
 	</parent>
 	<artifactId>objectos-comuns-boleto</artifactId>
 	<name>objectos :: comuns :: boleto</name>
-	<scm>
-		<connection>scm:git:git://objectos/objectos-comuns-boleto.git</connection>
-		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-boleto.git</developerConnection>
-	</scm>
 	<dependencies>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>objectos-comuns-base</artifactId>
-			<version>${objectos.comuns.base.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>br.com.caelum.stella</groupId>

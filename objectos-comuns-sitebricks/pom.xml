@@ -28,12 +28,12 @@
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>objectos-comuns-base</artifactId>
-			<version>${objectos.comuns.base.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>
 			<artifactId>objectos-comuns-jdbc</artifactId>
-			<version>${objectos.comuns.jdbc.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>br.com.objectos</groupId>

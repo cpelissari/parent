@@ -49,7 +49,7 @@
 		<mustache.java.version>0.8.7</mustache.java.version>
 		<mysql.connector.version>5.1.21</mysql.connector.version>
 		<net.sf.ehcache.version>2.2.0</net.sf.ehcache.version>
-		<objectos.comuns.version>2.99.0-SNAPSHOT</objectos.comuns.version>
+		<objectos.comuns.version>${project.version}</objectos.comuns.version>
 		<objectos.comuns.attachment.version>${objectos.comuns.version}</objectos.comuns.attachment.version>
 		<objectos.comuns.base.version>${objectos.comuns.version}</objectos.comuns.base.version>
 		<objectos.comuns.cli.version>2.0.1</objectos.comuns.cli.version>
