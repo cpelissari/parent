@@ -77,4 +77,17 @@ abstract class OcorrenciaCodigoPadrao implements OcorrenciaCodigo {
     return key;
   }
 
+  static class Vazio extends OcorrenciaCodigoPadrao {
+
+    public Vazio(int codigo, String descricao, MotivoParser motivoParser) {
+      super(codigo, descricao, motivoParser);
+    }
+
+    @Override
+    OcorrenciaTipo getTipo() {
+      return null;
+    }
+
+  }
+
 }

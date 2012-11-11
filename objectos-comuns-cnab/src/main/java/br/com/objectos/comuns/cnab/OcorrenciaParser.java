@@ -32,10 +32,15 @@ abstract class OcorrenciaParser {
 
   public Ocorrencia apply(FixedLine line) {
     String text = line.column(108, 110).get(String.class);
+    Ocorrencia ocorrencia = new OcorrenciaDesconhecida(text);
 
-    OcorrenciaCodigoPadrao codigo = getCodigoMap().get(text);
+    Map<String, OcorrenciaCodigoPadrao> map = getCodigoMap();
+    if (map.containsKey(text)) {
+      OcorrenciaCodigoPadrao codigo = getCodigoMap().get(text);
+      ocorrencia = codigo.apply(line);
+    }
 
-    return codigo.apply(line);
+    return ocorrencia;
   }
 
   abstract Map<String, OcorrenciaCodigoPadrao> getCodigoMap();
@@ -110,7 +115,7 @@ abstract class OcorrenciaParser {
       public BuilderWrapper put() {
         MotivoParser motivoParser = new MotivoParserPadrao(pos0, pos1, motivos);
 
-        OcorrenciaCodigoPadrao value = new BradescoOcorrencia(codigo, descricao, motivoParser);
+        OcorrenciaCodigoPadrao value = newInstance(codigo, descricao, motivoParser);
         String key = value.get();
         map.put(key, value);
 

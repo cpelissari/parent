@@ -28,7 +28,7 @@ public enum Banco {
 
   BRADESCO(237, Bradesco.banco, Bradesco.ocorrenciaParser),
 
-  ITAU(341, Itau.banco, new CnabOcorrenciaParser()),
+  ITAU(341, Itau.banco, Itau.ocorrenciaParser),
 
   OUTROS(999, Cnab.banco, new CnabOcorrenciaParser());
 

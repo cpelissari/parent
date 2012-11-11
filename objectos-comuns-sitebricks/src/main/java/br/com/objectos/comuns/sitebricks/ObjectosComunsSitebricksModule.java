@@ -16,7 +16,6 @@
 package br.com.objectos.comuns.sitebricks;
 
 import br.com.objectos.comuns.sitebricks.form.ObjectosComunsSitebricksFormModule;
-import br.com.objectos.comuns.sitebricks.json.ObjectosComunsSitebricksJsonModule;
 
 import com.google.inject.AbstractModule;
 
@@ -28,7 +27,6 @@ public class ObjectosComunsSitebricksModule extends AbstractModule {
   @Override
   protected void configure() {
     install(new ObjectosComunsSitebricksFormModule());
-    install(new ObjectosComunsSitebricksJsonModule());
   }
 
 }
