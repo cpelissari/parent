@@ -15,6 +15,8 @@
  */
 package br.com.objectos.comuns.sitebricks;
 
+import br.com.objectos.comuns.sitebricks.json.ObjectosComunsSitebricksJsonModule;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.AbstractModule;
 import com.google.sitebricks.conversion.Converter;
@@ -30,6 +32,7 @@ public class ObjectosComunsSitebricksTestModule extends AbstractModule {
   @Override
   protected void configure() {
     install(new ObjectosComunsSitebricksModule());
+    install(new ObjectosComunsSitebricksJsonModule());
 
     bind(BaseUrl.class).to(FakeBaseUrl.class);
     bind(ConverterRegistry.class).toInstance(

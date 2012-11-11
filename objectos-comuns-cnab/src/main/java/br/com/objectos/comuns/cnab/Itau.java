@@ -40,6 +40,8 @@ public class Itau implements Modelo {
 
   public static final Itau banco = Singleton.INSTANCE.get();
 
+  public static final OcorrenciaParser ocorrenciaParser = new ItauOcorrenciaParser();
+
   private final ItauHeaderSpec headerSpec;
 
   private final ItauLoteSpec loteSpec;
