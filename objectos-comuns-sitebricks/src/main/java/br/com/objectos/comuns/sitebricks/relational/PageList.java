@@ -50,6 +50,11 @@ public class PageList<T> {
     return new PageList<E>(rows, pager);
   }
 
+  public static <T> PageList<T> of(Iterable<T> rows) {
+    List<T> list = ImmutableList.copyOf(rows);
+    return new PageList<T>(list);
+  }
+
   public boolean isEmpty() {
     return empty;
   }
