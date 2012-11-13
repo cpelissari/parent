@@ -16,8 +16,11 @@
 package br.com.objectos.comuns.sitebricks.form;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.newHashMap;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.Map;
 
 import br.com.objectos.comuns.relational.jdbc.Crud;
 import br.com.objectos.comuns.sitebricks.BaseUrl;
@@ -42,15 +45,30 @@ class EntityFormImpl<T extends EntityJson> implements EntityForm<T> {
   private final Crud crud;
   private final Provider<Request> requests;
 
+  private MethodFilter<T> filter = new AlwaysMethodFilter<T>();
   private ActionListener<T> listener = new EmptyActionListener<T>();
   private ContextDecorator<T> decorator;
   private Redirect<T> redirect;
+
+  private final Map<Method, Action<T>> actionMap;
+  private final Map<Method, Redirect<T>> redirectMap = newHashMap();
 
   public EntityFormImpl(Class<T> type, BaseUrl baseUrl, Crud crud, Provider<Request> requests) {
     this.type = type;
     this.baseUrl = baseUrl;
     this.crud = crud;
     this.requests = requests;
+
+    actionMap = newHashMap();
+    actionMap.put(Method.POST, new DefaultCreateAction());
+    actionMap.put(Method.PUT, new DefaultUpdateAction());
+    actionMap.put(Method.DELETE, new DefaultDeleteAction());
+  }
+
+  @Override
+  public EntityForm<T> withMethodFilter(MethodFilter<T> filter) {
+    this.filter = filter;
+    return this;
   }
 
   @Override
@@ -76,14 +94,38 @@ class EntityFormImpl<T extends EntityJson> implements EntityForm<T> {
   }
 
   @Override
+  public OnMethod<T> on(final Class<? extends Annotation> methodAnnotation) {
+    Preconditions.checkArgument(decorator == null,
+        "You cannot use a decorator and a redirect at the same time");
+
+    return new OnMethod<T>() {
+      @Override
+      public EntityForm<T> execute(Action<T> action) {
+        Method method = Method.parse(methodAnnotation);
+        actionMap.put(method, action);
+        return EntityFormImpl.this;
+      }
+
+      @Override
+      public EntityForm<T> redirect(Redirect<T> redirect) {
+        Method method = Method.parse(methodAnnotation);
+        redirectMap.put(method, redirect);
+        return EntityFormImpl.this;
+      }
+    };
+  }
+
+  @Override
   public Reply<?> reply() {
     Request request = requests.get();
     T pojo = request.read(type).as(Json.class);
 
+    Method method = Method.parse(request);
+
     List<Error> errors = newArrayList();
 
     try {
-      tryToExecute(request, pojo);
+      tryToExecute(method, pojo);
     } catch (Throwable e) {
       errors.add(new ErrorImpl(null, e));
     }
@@ -100,29 +142,64 @@ class EntityFormImpl<T extends EntityJson> implements EntityForm<T> {
       if (redirect != null) {
         redirectUrl = redirect.getUrl(baseUrl, pojo);
       }
+
+      if (redirectMap.containsKey(method)) {
+        Redirect<T> methodRedirect = redirectMap.get(method);
+        redirectUrl = methodRedirect.getUrl(baseUrl, pojo);
+      }
     }
 
     FormJson json = new FormJson(context, errors, redirectUrl);
     return Reply.with(json).as(Json.class);
   }
 
-  private void tryToExecute(Request request, T pojo) {
-    switch (Method.parse(request)) {
+  private void tryToExecute(Method method, T pojo) {
+    switch (method) {
     case POST:
-      crud.create(pojo);
-      listener.onCreate(pojo);
+      if (filter.shouldCreate(pojo)) {
+        pojo = actionMap.get(method).execute(pojo);
+        listener.onCreate(pojo);
+      }
       break;
 
     case PUT:
-      crud.update(pojo);
-      listener.onUpdate(pojo);
+      if (filter.shouldUpdate(pojo)) {
+        pojo = actionMap.get(method).execute(pojo);
+        listener.onUpdate(pojo);
+      }
       break;
 
     case DELETE:
-      crud.delete(pojo);
-      listener.onDelete(pojo);
+      if (filter.shouldDelete(pojo)) {
+        pojo = actionMap.get(method).execute(pojo);
+        listener.onDelete(pojo);
+      }
 
       break;
+    }
+  }
+
+  private static class AlwaysMethodFilter<T extends EntityJson> extends AbstractMethodFilter<T> {}
+
+  private class DefaultCreateAction extends AbstractAction<T> {
+    @Override
+    public T execute(T pojo) {
+      crud.create(pojo);
+      return pojo;
+    }
+  }
+  private class DefaultUpdateAction extends AbstractAction<T> {
+    @Override
+    public T execute(T pojo) {
+      crud.update(pojo);
+      return pojo;
+    }
+  }
+  private class DefaultDeleteAction extends AbstractAction<T> {
+    @Override
+    public T execute(T pojo) {
+      crud.delete(pojo);
+      return pojo;
     }
   }
 
@@ -134,6 +211,11 @@ class EntityFormImpl<T extends EntityJson> implements EntityForm<T> {
 
     public static Method parse(Request request) {
       String method = request.method();
+      return Method.valueOf(method.toUpperCase());
+    }
+
+    public static Method parse(Class<? extends Annotation> annotation) {
+      String method = annotation.getSimpleName();
       return Method.valueOf(method.toUpperCase());
     }
 

@@ -67,9 +67,9 @@ public abstract class Cep {
     public CepPadrao(int prefixo, int sufixo) {
       super(prefixo, sufixo);
 
-      checkArgument(prefixo > 0, "Prefixo deve ser positivo");
+      checkArgument(prefixo >= 0, "Prefixo deve ser positivo");
       checkArgument(prefixo < 100000, "Prefixo deve ser um número entre 0 e 99999");
-      checkArgument(sufixo > 0, "Sufixo deve ser um número entre 0 e 999");
+      checkArgument(sufixo >= 0, "Sufixo deve ser um número entre 0 e 999");
       checkArgument(sufixo < 1000, "Sufixo deve ser um número entre 0 e 999");
     }
 
