@@ -59,6 +59,10 @@ public class FormResponseBuilder {
     return this;
   }
 
+  public WhenBuilder when(boolean condition) {
+    return new WhenBuilder(condition);
+  }
+
   public MessageBuilder addMessage(String template, Object... args) {
     String message = String.format(template, args);
     return addMessage(message);
@@ -86,6 +90,40 @@ public class FormResponseBuilder {
     this.redirectUrl = url;
 
     return this;
+  }
+
+  public class WhenBuilder {
+
+    private final boolean condition;
+
+    public WhenBuilder(boolean condition) {
+      this.condition = condition;
+    }
+
+    public MessageBuilder addMessage(String messageTemplate, Object... args) {
+      return condition ?
+          FormResponseBuilder.this.addMessage(messageTemplate, args) : new NoopMessageBuilder();
+    }
+
+    public MessageBuilder addMessage(final String message) {
+      return condition ?
+          FormResponseBuilder.this.addMessage(message) : new NoopMessageBuilder();
+    }
+
+  }
+
+  private class NoopMessageBuilder implements MessageBuilder {
+
+    @Override
+    public FormResponseBuilder toField(String string) {
+      return FormResponseBuilder.this;
+    }
+
+    @Override
+    public FormResponseBuilder toForm() {
+      return FormResponseBuilder.this;
+    }
+
   }
 
   private class Impl implements FormResponse {
