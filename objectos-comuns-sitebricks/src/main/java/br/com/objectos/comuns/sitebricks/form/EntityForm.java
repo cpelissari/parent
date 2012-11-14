@@ -15,6 +15,8 @@
  */
 package br.com.objectos.comuns.sitebricks.form;
 
+import java.lang.annotation.Annotation;
+
 import br.com.objectos.comuns.sitebricks.BaseUrl;
 import br.com.objectos.comuns.sitebricks.json.EntityJson;
 import br.com.objectos.way.view.Context;
@@ -25,6 +27,16 @@ import com.google.sitebricks.headless.Reply;
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 public interface EntityForm<T extends EntityJson> {
+
+  interface MethodFilter<T extends EntityJson> {
+    boolean shouldCreate(T pojo);
+    boolean shouldUpdate(T pojo);
+    boolean shouldDelete(T pojo);
+  }
+
+  interface Action<T extends EntityJson> {
+    T execute(T pojo);
+  }
 
   interface ActionListener<T extends EntityJson> {
     void onCreate(T pojo);
@@ -40,11 +52,20 @@ public interface EntityForm<T extends EntityJson> {
     String getUrl(BaseUrl baseUrl, T pojo);
   }
 
+  interface OnMethod<T extends EntityJson> {
+    EntityForm<T> execute(Action<T> action);
+    EntityForm<T> redirect(Redirect<T> redirect);
+  }
+
+  EntityForm<T> withMethodFilter(MethodFilter<T> filter);
+
   EntityForm<T> withActionListener(ActionListener<T> listener);
 
   EntityForm<T> withContextDecorator(ContextDecorator<T> decorator);
 
   EntityForm<T> withRedirect(Redirect<T> redirect);
+
+  OnMethod<T> on(Class<? extends Annotation> method);
 
   Reply<?> reply();
 

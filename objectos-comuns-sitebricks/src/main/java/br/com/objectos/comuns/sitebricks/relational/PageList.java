@@ -15,6 +15,11 @@
  */
 package br.com.objectos.comuns.sitebricks.relational;
 
+import static com.google.common.collect.Lists.newArrayList;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.common.base.Function;
@@ -44,15 +49,22 @@ public class PageList<T> {
     this.pager = pager;
   }
 
+  public static <T> PageList<T> of(Iterable<T> rows) {
+    List<T> list = ImmutableList.copyOf(rows);
+    return new PageList<T>(list);
+  }
+
+  public PageList<T> sort(Comparator<? super T> comparator) {
+    List<T> rows = getRows();
+    ArrayList<T> mutable = newArrayList(rows);
+    Collections.sort(mutable, comparator);
+    return new PageList<T>(mutable, pager);
+  }
+
   public <E> PageList<E> transform(Function<T, E> function) {
     List<E> lazy = Lists.transform(rows, function);
     List<E> rows = ImmutableList.copyOf(lazy);
     return new PageList<E>(rows, pager);
-  }
-
-  public static <T> PageList<T> of(Iterable<T> rows) {
-    List<T> list = ImmutableList.copyOf(rows);
-    return new PageList<T>(list);
   }
 
   public boolean isEmpty() {
