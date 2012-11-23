@@ -31,9 +31,11 @@ import br.com.objectos.comuns.sitebricks.Mimes;
 import com.github.mustachejava.Mustache;
 import com.google.common.base.Throwables;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.sitebricks.client.transport.Json;
 import com.google.sitebricks.headless.Reply;
+import com.google.sitebricks.headless.Request;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
@@ -45,12 +47,18 @@ class PagesGuice extends Pages {
 
   private final ObjectMapper objectMapper;
 
+  private final Provider<Request> requests;
+
   private final Views views;
 
   @Inject
-  public PagesGuice(Mustaches mustaches, ObjectMapper objectMapper, Views views) {
+  public PagesGuice(Mustaches mustaches,
+                    ObjectMapper objectMapper,
+                    Provider<Request> requests,
+                    Views views) {
     this.mustaches = mustaches;
     this.objectMapper = objectMapper;
+    this.requests = requests;
     this.views = views;
   }
 
@@ -64,6 +72,23 @@ class PagesGuice extends Pages {
   public Reply<?> post(Class<?> templateClass, Context context) {
     Response response = new Response(templateClass, context);
     return Reply.with(response.context).as(Json.class).type(Mimes.APPLICATION_JSON_UTF8);
+  }
+
+  @Override
+  public Reply<?> reply(Class<?> templateClass, Context context) {
+    Request request = requests.get();
+    Method method = Method.parse(request);
+
+    switch (method) {
+    case GET:
+      return get(templateClass, context);
+
+    case POST:
+      return post(templateClass, context);
+
+    default:
+      throw new IllegalArgumentException("Only GET and POST methods are supported");
+    }
   }
 
   private class Response {
