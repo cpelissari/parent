@@ -40,14 +40,16 @@ public class TesteDeCep {
     assertThat(res.toString(), equalTo("04614-013"));
   }
 
-  public void to_string() {
-    Cep res = Cep.valueOf(4614013);
+  public void value_of_string_sem_hifen() {
+    Cep res = Cep.valueOf("04614013");
 
     assertThat(res.toString(), equalTo("04614-013"));
   }
 
-  public void cep_vazio() {
+  public void to_string() {
+    Cep res = Cep.valueOf(4614013);
 
+    assertThat(res.toString(), equalTo("04614-013"));
   }
 
   @DataProvider

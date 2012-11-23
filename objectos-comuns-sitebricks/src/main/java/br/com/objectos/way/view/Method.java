@@ -15,30 +15,28 @@
  */
 package br.com.objectos.way.view;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.ImplementedBy;
-import com.google.inject.Module;
-import com.google.sitebricks.headless.Reply;
+import java.lang.annotation.Annotation;
+
+import com.google.sitebricks.headless.Request;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@ImplementedBy(PagesGuice.class)
-public abstract class Pages {
+enum Method {
 
-  public static Module atPackage(final String pkgName) {
-    return new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(PagesBaseDir.class).toInstance(PagesBaseDir.atPackage(pkgName));
-      }
-    };
+  GET,
+  POST,
+  PUT,
+  DELETE;
+
+  public static Method parse(Request request) {
+    String method = request.method();
+    return Method.valueOf(method.toUpperCase());
   }
 
-  public abstract Reply<?> get(Class<?> templateClass, Context context);
-
-  public abstract Reply<?> post(Class<?> templateClass, Context context);
-
-  public abstract Reply<?> reply(Class<?> templateClass, Context context);
+  public static Method parse(Class<? extends Annotation> annotation) {
+    String method = annotation.getSimpleName();
+    return Method.valueOf(method.toUpperCase());
+  }
 
 }

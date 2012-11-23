@@ -17,12 +17,17 @@ package br.com.objectos.comuns.base.br;
 
 import static java.lang.String.format;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.google.common.base.Strings;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
 public abstract class Cep {
+
+  private static final Pattern regex = Pattern.compile("^([0-9]{5})-?([0-9]{3})$");
 
   private static final Cep VAZIO = new CepVazio();
 
@@ -41,12 +46,14 @@ public abstract class Cep {
 
   public static Cep valueOf(String text) {
     text = Strings.nullToEmpty(text).trim();
-    checkArgument(text.matches("^[0-9]{5}-[0-9]{3}$"), "CEP deve estar no format xxxxx-xxx");
+    Matcher matcher = regex.matcher(text);
+    checkArgument(matcher.matches(), "CEP deve estar no format xxxxx-xxx");
 
-    String[] parts = text.split("-");
+    String _prefixo = matcher.group(1);
+    String _sufixo = matcher.group(2);
 
-    int prefixo = Integer.valueOf(parts[0], 10).intValue();
-    short sufixo = Short.valueOf(parts[1], 10).shortValue();
+    int prefixo = Integer.valueOf(_prefixo, 10).intValue();
+    short sufixo = Short.valueOf(_sufixo, 10).shortValue();
 
     return new CepPadrao(prefixo, sufixo);
   }
