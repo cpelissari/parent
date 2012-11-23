@@ -18,10 +18,10 @@ package br.com.objectos.comuns.web.upload;
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public interface UploadRequest {
+interface UploadedFormField {
 
-  Iterable<PotentialFile> getPotentialFiles();
+  String getName();
 
-  UploadedForm getUploadedForm();
+  String getValue();
 
 }

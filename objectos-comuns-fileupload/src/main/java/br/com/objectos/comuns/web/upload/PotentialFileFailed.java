@@ -31,4 +31,9 @@ class PotentialFileFailed implements PotentialFile {
     throw new UploadRequestException(e);
   }
 
+  @Override
+  public UploadedFile saveAndGet() throws UploadRequestException {
+    throw new UploadRequestException(e);
+  }
+
 }

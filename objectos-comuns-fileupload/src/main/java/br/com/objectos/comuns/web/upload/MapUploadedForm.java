@@ -15,13 +15,31 @@
  */
 package br.com.objectos.comuns.web.upload;
 
+import static com.google.common.collect.Maps.newHashMap;
+
+import java.util.Map;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public interface UploadRequest {
+class MapUploadedForm implements UploadedForm {
 
-  Iterable<PotentialFile> getPotentialFiles();
+  private final Map<String, UploadedFormField> map = newHashMap();
 
-  UploadedForm getUploadedForm();
+  @Override
+  public String get(String key) {
+    String res = null;
+
+    if (map.containsKey(key)) {
+      UploadedFormField field = map.get(key);
+      res = field.getValue();
+    }
+
+    return res;
+  }
+
+  public void add(UploadedFormField field) {
+    map.put(field.getName(), field);
+  }
 
 }

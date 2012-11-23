@@ -16,51 +16,45 @@
 package br.com.objectos.comuns.web.upload;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.google.common.io.ByteStreams;
-import com.google.common.io.Closeables;
 import com.google.common.io.Files;
-import com.google.common.io.OutputSupplier;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-class PotentialFileSucceeded implements PotentialFile {
+class UploadedFileTemp implements UploadedFile {
 
-  private final UploadedFile file;
+  private final File file;
 
-  public PotentialFileSucceeded(UploadedFile file) {
+  private final String contentType;
+
+  private final String name;
+
+  public UploadedFileTemp(File file, UploadedFile uploadedFile) {
     this.file = file;
+    this.contentType = uploadedFile.getContentType();
+    this.name = uploadedFile.getName();
   }
 
   @Override
-  public UploadedFile get() throws UploadRequestException {
-    return file;
-  }
-
-  @Override
-  public UploadedFile saveAndGet() throws UploadRequestException {
-    InputStream input = null;
+  public InputStream openStream() throws UploadRequestException {
     try {
-
-      input = file.openStream();
-      File tempFile = File.createTempFile("uploaded-file-", ".tmp");
-      OutputSupplier<FileOutputStream> out = Files.newOutputStreamSupplier(tempFile);
-      ByteStreams.copy(input, out);
-      return new UploadedFileTemp(tempFile, file);
-
+      return Files.newInputStreamSupplier(file).getInput();
     } catch (IOException e) {
-
       throw new UploadRequestException(e);
-
-    } finally {
-
-      Closeables.closeQuietly(input);
-
     }
+  }
+
+  @Override
+  public String getContentType() {
+    return contentType;
+  }
+
+  @Override
+  public String getName() {
+    return name;
   }
 
 }
