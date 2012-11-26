@@ -40,6 +40,17 @@ public abstract class AbstractScript<K, V> implements Script<V> {
   }
 
   @Override
+  public boolean cancel() {
+    boolean res = false;
+
+    if (future != null) {
+      res = future.cancel(true);
+    }
+
+    return res;
+  }
+
+  @Override
   public Future<V> get() {
     if (future == null) {
       synchronized (lock) {
