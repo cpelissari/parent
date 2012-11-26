@@ -23,6 +23,8 @@ import java.util.concurrent.Future;
  */
 public interface Script<V> extends Callable<V> {
 
+  boolean cancel();
+
   Future<V> get();
 
 }
