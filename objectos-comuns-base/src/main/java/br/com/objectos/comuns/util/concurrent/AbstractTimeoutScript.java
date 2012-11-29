@@ -54,7 +54,7 @@ public abstract class AbstractTimeoutScript<K, V> extends AbstractScript<K, V> {
 
   @Override
   void postSubmit(K key, Future<V> future) {
-    TimeoutTask<K, V> task = new TimeoutTask<K, V>(key, this);
+    TimeoutTask<K, V> task = new TimeoutTask<K, V>(key, future, this);
     timeoutExecutor.schedule(task, timeout, unit);
   }
 
@@ -62,20 +62,29 @@ public abstract class AbstractTimeoutScript<K, V> extends AbstractScript<K, V> {
 
     private final K key;
 
+    private final Future<V> future;
+
     private final AbstractTimeoutScript<K, V> script;
 
-    public TimeoutTask(K key, AbstractTimeoutScript<K, V> script) {
+    public TimeoutTask(K key, Future<V> future, AbstractTimeoutScript<K, V> script) {
       this.key = key;
+      this.future = future;
       this.script = script;
     }
 
     @Override
     public void run() {
+      if (!future.isDone()) {
+        tryToCancel();
+      }
+    }
+
+    private void tryToCancel() {
       try {
         script.onTimeout(key);
         script.cancel();
-        script.onError(key, new TimeoutException(
-            "Script took longer than maximum allowed time for completion."));
+        script.onError(key,
+            new TimeoutException("Script took longer than maximum allowed time for completion."));
       } finally {
         script.finish();
       }
