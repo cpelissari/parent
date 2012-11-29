@@ -56,6 +56,7 @@ public abstract class AbstractScript<K, V> implements Script<V> {
       synchronized (lock) {
         if (future == null) {
           future = executor.submit(this);
+          postSubmit(key, future);
         }
       }
     }
@@ -75,8 +76,7 @@ public abstract class AbstractScript<K, V> implements Script<V> {
       throw e;
 
     } finally {
-      map.remove(key);
-      onFinish(key);
+      finish();
 
     }
   }
@@ -91,6 +91,14 @@ public abstract class AbstractScript<K, V> implements Script<V> {
   }
 
   protected void onFinish(K key) {
+  }
+
+  void postSubmit(K key, Future<V> future) {
+  }
+
+  void finish() {
+    map.remove(key);
+    onFinish(key);
   }
 
   protected abstract V tryToCall(K key) throws Exception;
