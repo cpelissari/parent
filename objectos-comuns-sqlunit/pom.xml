@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>objectos-comuns-jdbc</artifactId>
-			<version>${objectos.comuns.jdbc.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>
