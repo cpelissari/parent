@@ -15,10 +15,12 @@
 		<module>objectos-comuns-base</module>
         <module>objectos-comuns-boleto</module>
 		<module>objectos-comuns-cnab</module>
+		<module>objectos-comuns-dbunit</module>
 		<module>objectos-comuns-fileupload</module>
 		<module>objectos-comuns-io</module>
 		<module>objectos-comuns-jdbc</module>
 		<module>objectos-comuns-sitebricks</module>
+		<module>objectos-comuns-sqlunit</module>
 	</modules>
 	<properties>
 		<caelum.stella.version>2.0-beta1</caelum.stella.version>
@@ -55,7 +57,7 @@
 		<objectos.comuns.cli.version>2.0.1</objectos.comuns.cli.version>
 		<objectos.comuns.cnab.version>${objectos.comuns.version}</objectos.comuns.cnab.version>
 		<objectos.comuns.cron.version>2.0.0</objectos.comuns.cron.version>
-		<objectos.comuns.dbunit.version>2.0.7</objectos.comuns.dbunit.version>
+		<objectos.comuns.dbunit.version>${objectos.comuns.version}</objectos.comuns.dbunit.version>
 		<objectos.comuns.etc.version>2.0.1</objectos.comuns.etc.version>
 		<objectos.comuns.fileupload.version>${objectos.comuns.version}</objectos.comuns.fileupload.version>
 		<objectos.comuns.io.version>${objectos.comuns.version}</objectos.comuns.io.version>
@@ -63,7 +65,7 @@
 		<objectos.comuns.jgravatar.version>1.0.0</objectos.comuns.jgravatar.version>
 		<objectos.comuns.relational.version>2.0.5</objectos.comuns.relational.version>
 		<objectos.comuns.sitebricks.version>${objectos.comuns.version}</objectos.comuns.sitebricks.version>
-		<objectos.comuns.sqlunit.version>2.0.4</objectos.comuns.sqlunit.version>
+		<objectos.comuns.sqlunit.version>${objectos.comuns.version}</objectos.comuns.sqlunit.version>
 		<objectos.comuns.wkhtmltopdf.version>2.0.0</objectos.comuns.wkhtmltopdf.version>
 		<org.imgscalr.version>4.2</org.imgscalr.version>
 		<org.hamcrest.version>1.3</org.hamcrest.version>
