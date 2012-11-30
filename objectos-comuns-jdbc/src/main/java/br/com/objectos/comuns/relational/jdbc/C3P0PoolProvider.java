@@ -21,19 +21,17 @@ import br.com.objectos.comuns.sql.JdbcCredentials;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-@Singleton
-public class C3P0DataSourceProvider implements Provider<ComboPooledDataSource> {
+public class C3P0PoolProvider implements Provider<ComboPooledDataSource> {
 
   private final JdbcCredentials credentials;
 
   @Inject
-  public C3P0DataSourceProvider(@C3P0 JdbcCredentials credentials) {
+  public C3P0PoolProvider(@C3P0 JdbcCredentials credentials) {
     this.credentials = credentials;
   }
 
@@ -62,6 +60,13 @@ public class C3P0DataSourceProvider implements Provider<ComboPooledDataSource> {
   }
 
   protected void configureDataSource(ComboPooledDataSource dataSource) {
+    dataSource.setInitialPoolSize(0);
+    dataSource.setMinPoolSize(0);
+    dataSource.setMaxPoolSize(50);
+
+    dataSource.setIdleConnectionTestPeriod(3600);
+    dataSource.setMaxIdleTime(120);
+    dataSource.setPreferredTestQuery("select 1");
   }
 
 }
