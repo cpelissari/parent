@@ -43,6 +43,8 @@ public class RelationalJdbcModuleBuilder {
 
     private final Provider<JdbcCredentials> credentials;
 
+    private Class<? extends Provider<ComboPooledDataSource>> poolProvider = C3P0PoolProvider.class;
+
     private boolean jpa = false;
 
     public WithC3P0Builder(Provider<JdbcCredentials> credentials) {
@@ -59,17 +61,26 @@ public class RelationalJdbcModuleBuilder {
       return this;
     }
 
+    public WithC3P0Builder poolProvider(
+        Class<? extends Provider<ComboPooledDataSource>> poolProvider) {
+      this.poolProvider = poolProvider;
+      return this;
+    }
+
     public Module build() {
       return new AbstractModule() {
         @Override
         protected void configure() {
-          bind(ComboPooledDataSource.class).toProvider(C3P0DataSourceProvider.class).in(
-              Scopes.SINGLETON);
+          bind(ComboPooledDataSource.class)
+              .toProvider(poolProvider)
+              .in(Scopes.SINGLETON);
 
-          bind(JdbcCredentials.class).annotatedWith(C3P0.class).toProvider(credentials);
+          bind(JdbcCredentials.class)
+              .annotatedWith(C3P0.class)
+              .toProvider(credentials);
 
-          ThrowingProviderBinder.create(binder()) //
-              .bind(SQLProvider.class, Connection.class) //
+          ThrowingProviderBinder.create(binder())
+              .bind(SQLProvider.class, Connection.class)
               .to(C3P0ConnectionProvider.class);
 
           install(new RelationalJdbcBaseModule());
@@ -79,11 +90,11 @@ public class RelationalJdbcModuleBuilder {
             bind(BatchInsert.class).to(AtomicInsert.class).in(Scopes.SINGLETON);
             bind(SearchQueryExec.class).to(JdbcSearchQueryExec.class).in(Scopes.SINGLETON);
           } else {
-            bind(br.com.objectos.comuns.relational.jdbc.BatchInsert.class) //
-                .to(AtomicInsert.class) //
+            bind(br.com.objectos.comuns.relational.jdbc.BatchInsert.class)
+                .to(AtomicInsert.class)
                 .in(Scopes.SINGLETON);
-            bind(br.com.objectos.comuns.relational.jdbc.SearchQueryExec.class) //
-                .to(JdbcSearchQueryExec.class) //
+            bind(br.com.objectos.comuns.relational.jdbc.SearchQueryExec.class)
+                .to(JdbcSearchQueryExec.class)
                 .in(Scopes.SINGLETON);
           }
         }
