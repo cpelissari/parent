@@ -25,4 +25,9 @@ class FakePotentialFile implements PotentialFile {
     return null;
   }
 
+  @Override
+  public UploadedFile saveAndGet() throws UploadRequestException {
+    return null;
+  }
+
 }

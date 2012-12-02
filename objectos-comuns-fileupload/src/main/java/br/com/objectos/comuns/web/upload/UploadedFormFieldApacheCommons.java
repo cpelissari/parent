@@ -15,13 +15,35 @@
  */
 package br.com.objectos.comuns.web.upload;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.util.Streams;
+
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public interface UploadRequest {
+class UploadedFormFieldApacheCommons implements UploadedFormField {
 
-  Iterable<PotentialFile> getPotentialFiles();
+  private final String name;
 
-  UploadedForm getUploadedForm();
+  private final String value;
+
+  public UploadedFormFieldApacheCommons(FileItemStream stream) throws IOException {
+    InputStream in = stream.openStream();
+    name = stream.getFieldName();
+    value = Streams.asString(in);
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public String getValue() {
+    return value;
+  }
 
 }

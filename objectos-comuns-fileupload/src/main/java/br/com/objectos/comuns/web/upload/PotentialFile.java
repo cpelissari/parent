@@ -22,4 +22,6 @@ public interface PotentialFile {
 
   UploadedFile get() throws UploadRequestException;
 
+  UploadedFile saveAndGet() throws UploadRequestException;
+
 }
