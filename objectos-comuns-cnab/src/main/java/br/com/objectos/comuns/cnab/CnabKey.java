@@ -58,6 +58,10 @@ public class CnabKey<K extends BancoKey, V> {
     return new CnabKey<K, V>(keyClass, id, type, pos0, pos1, optional);
   }
 
+  public CnabKey<K, V> optional() {
+    return new CnabKey<K, V>(keyClass, id, type, pos0, pos1, true);
+  }
+
   public String getId() {
     return id.toString();
   }
@@ -82,7 +86,7 @@ public class CnabKey<K extends BancoKey, V> {
     return value;
   }
 
-  static class Construtor<K extends BancoKey> {
+  public static class Construtor<K extends BancoKey> {
 
     private final Class<K> keyClass;
 

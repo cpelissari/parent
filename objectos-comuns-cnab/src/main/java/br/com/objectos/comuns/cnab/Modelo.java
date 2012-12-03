@@ -24,4 +24,10 @@ public interface Modelo {
 
   Spec getLoteSpec();
 
+  RemessaSpec getHeaderRemessaSpec();
+
+  RemessaSpec getLoteRemessaSpec();
+
+  RemessaSpec getTrailerRemessaSpec();
+
 }

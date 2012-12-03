@@ -29,7 +29,17 @@ public class Itau implements Modelo {
     private Singleton() {
       ItauHeaderSpec headerSpec = new ItauHeaderSpec();
       ItauLoteSpec loteSpec = new ItauLoteSpec();
-      this.instance = new Itau(headerSpec, loteSpec);
+
+      ItauHeaderRemessaSpec headerRemessaSpec = new ItauHeaderRemessaSpec();
+      ItauLoteRemessaSpec loteRemessaSpec = new ItauLoteRemessaSpec();
+      ItauTrailerRemessaSpec trailerRemessaSpec = new ItauTrailerRemessaSpec();
+      this.instance = new Itau(
+          headerSpec,
+          loteSpec,
+
+          headerRemessaSpec,
+          loteRemessaSpec,
+          trailerRemessaSpec);
     }
 
     public Itau get() {
@@ -46,9 +56,22 @@ public class Itau implements Modelo {
 
   private final ItauLoteSpec loteSpec;
 
-  private Itau(ItauHeaderSpec headerSpec, ItauLoteSpec loteSpec) {
+  private final ItauHeaderRemessaSpec headerRemessaSpec;
+
+  private final ItauLoteRemessaSpec loteRemessaSpec;
+
+  private final ItauTrailerRemessaSpec trailerRemessaSpec;
+
+  private Itau(ItauHeaderSpec headerSpec,
+               ItauLoteSpec loteSpec,
+               ItauHeaderRemessaSpec headerRemessaSpec,
+               ItauLoteRemessaSpec loteRemessaSpec,
+               ItauTrailerRemessaSpec trailerRemessaSpec) {
     this.headerSpec = headerSpec;
     this.loteSpec = loteSpec;
+    this.headerRemessaSpec = headerRemessaSpec;
+    this.loteRemessaSpec = loteRemessaSpec;
+    this.trailerRemessaSpec = trailerRemessaSpec;
   }
 
   public static ItauHeader header() {
@@ -56,6 +79,15 @@ public class Itau implements Modelo {
   }
   public static ItauLote lote() {
     return banco.loteSpec;
+  }
+  public static ItauHeaderRemessa headerRemessa() {
+    return banco.headerRemessaSpec;
+  }
+  public static ItauLoteRemessa loteRemessa() {
+    return banco.loteRemessaSpec;
+  }
+  public static ItauTrailerRemessa trailerRemessa() {
+    return banco.trailerRemessaSpec;
   }
 
   @Override
@@ -66,6 +98,21 @@ public class Itau implements Modelo {
   @Override
   public Spec getLoteSpec() {
     return loteSpec;
+  }
+
+  @Override
+  public RemessaSpec getHeaderRemessaSpec() {
+    return headerRemessaSpec;
+  }
+
+  @Override
+  public RemessaSpec getLoteRemessaSpec() {
+    return loteRemessaSpec;
+  }
+
+  @Override
+  public RemessaSpec getTrailerRemessaSpec() {
+    return trailerRemessaSpec;
   }
 
 }

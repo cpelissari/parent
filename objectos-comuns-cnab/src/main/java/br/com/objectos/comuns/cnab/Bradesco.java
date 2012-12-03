@@ -29,7 +29,18 @@ public final class Bradesco implements Modelo {
     private Singleton() {
       BradescoHeaderSpec headerSpec = new BradescoHeaderSpec();
       BradescoLoteSpec loteSpec = new BradescoLoteSpec();
-      this.instance = new Bradesco(headerSpec, loteSpec);
+
+      BradescoHeaderRemessaSpec headerRemessaSpec = new BradescoHeaderRemessaSpec();
+      BradescoLoteRemessaSpec loteRemessaSpec = new BradescoLoteRemessaSpec();
+      BradescoTrailerRemessaSpec trailerRemessaSpec = new BradescoTrailerRemessaSpec();
+
+      this.instance = new Bradesco(
+          headerSpec,
+          loteSpec,
+
+          headerRemessaSpec,
+          loteRemessaSpec,
+          trailerRemessaSpec);
     }
 
     public Bradesco get() {
@@ -46,9 +57,22 @@ public final class Bradesco implements Modelo {
 
   private final BradescoLoteSpec loteSpec;
 
-  private Bradesco(BradescoHeaderSpec headerSpec, BradescoLoteSpec loteSpec) {
+  private final BradescoHeaderRemessaSpec headerRemessaSpec;
+
+  private final BradescoLoteRemessaSpec loteRemessaSpec;
+
+  private final BradescoTrailerRemessaSpec trailerRemessaSpec;
+
+  public Bradesco(BradescoHeaderSpec headerSpec,
+                  BradescoLoteSpec loteSpec,
+                  BradescoHeaderRemessaSpec headerRemessaSpec,
+                  BradescoLoteRemessaSpec loteRemessaSpec,
+                  BradescoTrailerRemessaSpec trailerRemessaSpec) {
     this.headerSpec = headerSpec;
     this.loteSpec = loteSpec;
+    this.headerRemessaSpec = headerRemessaSpec;
+    this.loteRemessaSpec = loteRemessaSpec;
+    this.trailerRemessaSpec = trailerRemessaSpec;
   }
 
   public static BradescoHeader header() {
@@ -56,6 +80,15 @@ public final class Bradesco implements Modelo {
   }
   public static BradescoLote lote() {
     return banco.loteSpec;
+  }
+  public static BradescoHeaderRemessa headerRemessa() {
+    return banco.headerRemessaSpec;
+  }
+  public static BradescoLoteRemessa loteRemessa() {
+    return banco.loteRemessaSpec;
+  }
+  public static BradescoTrailerRemessa trailerRemessa() {
+    return banco.trailerRemessaSpec;
   }
 
   @Override
@@ -66,6 +99,21 @@ public final class Bradesco implements Modelo {
   @Override
   public Spec getLoteSpec() {
     return loteSpec;
+  }
+
+  @Override
+  public RemessaSpec getHeaderRemessaSpec() {
+    return headerRemessaSpec;
+  }
+
+  @Override
+  public BradescoLoteRemessaSpec getLoteRemessaSpec() {
+    return loteRemessaSpec;
+  }
+
+  @Override
+  public RemessaSpec getTrailerRemessaSpec() {
+    return trailerRemessaSpec;
   }
 
 }

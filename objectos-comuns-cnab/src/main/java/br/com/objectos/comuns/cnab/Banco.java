@@ -17,20 +17,71 @@ package br.com.objectos.comuns.cnab;
 
 import static com.google.common.collect.Maps.newHashMap;
 
+import java.util.List;
 import java.util.Map;
 
+import br.com.objectos.comuns.cnab.obj.InstrucaoSet;
+import br.com.objectos.comuns.cnab.obj.InstrucaoTipo;
+import br.com.objectos.comuns.cnab.obj.InstrucaoTipoVazio;
 import br.com.objectos.comuns.io.FixedLine;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * @author marcio.endo@objectos.com.br (Marcio Endo)
  */
-public enum Banco {
+public enum Banco implements InstrucaoSet {
 
-  BRADESCO(237, Bradesco.banco, Bradesco.ocorrenciaParser),
+  BRADESCO(237, Bradesco.banco, Bradesco.ocorrenciaParser) {
+    @Override
+    RemessaBuilder newRemessaBuilder() {
+      return new BradescoRemessaBuilder(this);
+    }
 
-  ITAU(341, Itau.banco, Itau.ocorrenciaParser),
+    @Override
+    public List<InstrucaoTipo> getInstrucoes() {
+      return BradescoInstrucao.values();
+    }
 
-  OUTROS(999, Cnab.banco, new CnabOcorrenciaParser());
+    @Override
+    public InstrucaoTipo getInstrucao(int codigo) {
+      return BradescoInstrucao.get(codigo);
+    }
+  },
+
+  ITAU(341, Itau.banco, Itau.ocorrenciaParser) {
+    @Override
+    RemessaBuilder newRemessaBuilder() {
+      return new ItauRemessaBuilder(this);
+    }
+
+    @Override
+    public List<InstrucaoTipo> getInstrucoes() {
+      return ItauInstrucao.values();
+    }
+
+    @Override
+    public InstrucaoTipo getInstrucao(int codigo) {
+      return ItauInstrucao.get(codigo);
+    }
+  },
+
+  OUTROS(999, Cnab.banco, new CnabOcorrenciaParser()) {
+    @Override
+    RemessaBuilder newRemessaBuilder() {
+      return null;
+    }
+
+    @Override
+    public List<InstrucaoTipo> getInstrucoes() {
+      return ImmutableList.of();
+    }
+
+    @Override
+    public InstrucaoTipo getInstrucao(int codigo) {
+      return InstrucaoTipoVazio.get();
+    }
+  };
 
   private static final Map<Integer, Banco> codigoMap = newHashMap();
 
@@ -70,6 +121,8 @@ public enum Banco {
   public Modelo getModelo() {
     return modelo;
   }
+
+  abstract RemessaBuilder newRemessaBuilder();
 
   Object parseOcorrencia(FixedLine line) {
     return ocorrenciaParser.apply(line);

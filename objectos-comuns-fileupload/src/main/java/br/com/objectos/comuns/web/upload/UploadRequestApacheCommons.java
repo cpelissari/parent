@@ -139,7 +139,7 @@ class UploadRequestApacheCommons implements UploadRequest {
         while (delegate.hasNext()) {
           FileItemStream stream = delegate.next();
 
-          if (stream.isFormField()) {
+          if (!stream.isFormField()) {
             UploadedFile file = new UploadedFileApacheCommons(stream);
             next = new PotentialFileSucceeded(file);
             break;
