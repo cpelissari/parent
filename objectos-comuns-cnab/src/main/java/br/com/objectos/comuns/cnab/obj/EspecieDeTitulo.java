@@ -27,37 +27,40 @@ import br.com.objectos.comuns.cnab.RemessaEnum;
  */
 public enum EspecieDeTitulo implements RemessaEnum {
 
-  DUPLICATA(1),
+  DUPLICATA(1, "Duplicata"),
 
-  NOTA_PROMISSORIA(2),
+  NOTA_PROMISSORIA(2, "Nota promissória"),
 
-  NOTA_SEGURO(3),
+  NOTA_SEGURO(3, "Nota seguro"),
 
-  COBRANCA_SERIADA(4),
+  COBRANCA_SERIADA(4, "Cobrança seriada"),
 
-  RECIBO(5),
+  RECIBO(5, "Recibo"),
 
-  LETRA_DE_CAMBIO(10),
+  LETRA_DE_CAMBIO(10, "Letra de câmbio"),
 
-  NOTA_DE_DEBITO(11),
+  NOTA_DE_DEBITO(11, "Nota de débito"),
 
-  DUPLICATA_DE_SERV(12),
+  DUPLICATA_DE_SERV(12, "Duplicata de serviço"),
 
-  OUTROS(99);
+  OUTROS(99, "Outros");
 
   private static final Map<Integer, EspecieDeTitulo> codigoMap = newHashMap();
 
   static {
     EnumSet<EspecieDeTitulo> especies = EnumSet.allOf(EspecieDeTitulo.class);
     for (EspecieDeTitulo especie : especies) {
-      codigoMap.put(especie.valor, especie);
+      codigoMap.put(especie.codigo, especie);
     }
   }
 
-  private int valor;
+  private final int codigo;
 
-  private EspecieDeTitulo(int valor) {
-    this.valor = valor;
+  private final String descricao;
+
+  private EspecieDeTitulo(int codigo, String descricao) {
+    this.codigo = codigo;
+    this.descricao = descricao;
   }
 
   public static EspecieDeTitulo valueOf(int codigo) {
@@ -66,7 +69,15 @@ public enum EspecieDeTitulo implements RemessaEnum {
 
   @Override
   public String getValor() {
-    return String.format("%02d", valor);
+    return String.format("%02d", codigo);
+  }
+
+  public int getCodigo() {
+    return codigo;
+  }
+
+  public String getDescricao() {
+    return descricao;
   }
 
 }
