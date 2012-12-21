@@ -22,6 +22,25 @@ import br.com.objectos.comuns.cnab.RemessaEnum;
  */
 public enum Comando implements RemessaEnum {
 
+  // 01..Remessa
+  // 02..Pedido de baixa
+  // 03..Pedido de Protesto Falimentar
+  // 04..Concessão de abatimento
+  // 05..Cancelamento de abatimento concedido
+  // 06..Alteração de vencimento
+  // 07..Alteração do controle do participante
+  // 08..Alteração de seu número
+  // 09..Pedido de protesto
+  // 18..Sustar protesto e baixar Título
+  // 19..Sustar protesto e manter em carteira
+  // 22..Transferência Cessão crédito ID. Prod. 10
+  // 23..Transferência entre Carteiras
+  // 24..Dev. Transferência entre Carteiras
+  // 31..Alteração de outros dados
+  // 35..Desagendamento do débito automático
+  // 68..Acerto nos dados do rateio de Crédito
+  // 69..Cancelamento do rateio de crédito
+
   REMESSA("01"),
 
   BAIXA("02"),
@@ -48,7 +67,7 @@ public enum Comando implements RemessaEnum {
 
   CANCELAMENTO("69");
 
-  private String valor;
+  private final String valor;
 
   private Comando(String valor) {
     this.valor = valor;

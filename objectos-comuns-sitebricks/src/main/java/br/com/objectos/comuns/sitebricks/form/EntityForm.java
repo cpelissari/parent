@@ -45,7 +45,7 @@ public interface EntityForm<T extends EntityJson> {
   }
 
   interface ContextDecorator<T extends EntityJson> {
-    void decorate(Context ctx);
+    void decorate(Context c, T pojo);
   }
 
   interface Redirect<T extends EntityJson> {
