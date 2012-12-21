@@ -136,7 +136,7 @@ class EntityFormImpl<T extends EntityJson> implements EntityForm<T> {
     if (errors.isEmpty()) {
       if (decorator != null) {
         context = Context.of();
-        decorator.decorate(context);
+        decorator.decorate(context, pojo);
       }
 
       if (redirect != null) {
