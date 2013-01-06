@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.com.objectos</groupId>
+		<artifactId>objectos-comuns-parent</artifactId>
+		<version>2.99.9-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>objectos-comuns-cli</artifactId>
+	<name>objectos :: comuns :: cli</name>
+	<scm>
+		<connection>scm:git:git@github.com:objectos/objectos-comuns-cli.git</connection>
+		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-cli.git</developerConnection>
+	</scm>
+	<properties>
+		<org.jcommander.version>1.27</org.jcommander.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-multibindings</artifactId>
+			<version>${google.guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.beust</groupId>
+			<artifactId>jcommander</artifactId>
+			<version>${org.jcommander.version}</version>
+		</dependency>
+	</dependencies>
+</project>

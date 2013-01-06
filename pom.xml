@@ -14,6 +14,7 @@
 		<module>objectos-comuns-attachment</module>
 		<module>objectos-comuns-base</module>
         <module>objectos-comuns-boleto</module>
+        <module>objectos-comuns-cli</module>
 		<module>objectos-comuns-cnab</module>
 		<module>objectos-comuns-dbunit</module>
 		<module>objectos-comuns-fileupload</module>
@@ -54,7 +55,7 @@
 		<objectos.comuns.version>${project.version}</objectos.comuns.version>
 		<objectos.comuns.attachment.version>${objectos.comuns.version}</objectos.comuns.attachment.version>
 		<objectos.comuns.base.version>${objectos.comuns.version}</objectos.comuns.base.version>
-		<objectos.comuns.cli.version>2.0.1</objectos.comuns.cli.version>
+		<objectos.comuns.cli.version>${objectos.comuns.version}</objectos.comuns.cli.version>
 		<objectos.comuns.cnab.version>${objectos.comuns.version}</objectos.comuns.cnab.version>
 		<objectos.comuns.cron.version>2.0.0</objectos.comuns.cron.version>
 		<objectos.comuns.dbunit.version>${objectos.comuns.version}</objectos.comuns.dbunit.version>
