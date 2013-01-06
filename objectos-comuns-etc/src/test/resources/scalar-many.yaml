@@ -1,0 +1,12 @@
+- string: abc
+  boolean: true
+  int: 123
+  long: 9223372036854775807
+  float: 1.23
+  double: 4.56
+- string: abc
+  boolean: true
+  int: 123
+  long: 9223372036854775807
+  float: 1.23
+  double: 4.56

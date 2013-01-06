@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.com.objectos</groupId>
+		<artifactId>objectos-comuns-parent</artifactId>
+		<version>2.99.9-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>objectos-comuns-etc</artifactId>
+	<name>objectos :: comuns :: etc</name>
+	<scm>
+		<connection>scm:git:git://objectos/objectos-comuns-etc.git</connection>
+		<developerConnection>scm:git:git@github.com:objectos/objectos-comuns-etc.git</developerConnection>
+	</scm>
+	<dependencies>
+		<dependency>
+			<groupId>br.com.objectos</groupId>
+			<artifactId>objectos-comuns-base</artifactId>
+			<version>${objectos.comuns.base.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-multibindings</artifactId>
+			<version>${google.guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>${org.yaml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mvel</groupId>
+			<artifactId>mvel2</artifactId>
+			<version>${org.mvel.version}</version>
+		</dependency>
+	</dependencies>
+</project>

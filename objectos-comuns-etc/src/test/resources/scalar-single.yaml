@@ -1,0 +1,15 @@
+string: abc
+boolean: true
+int: 123
+long: 9223372036854775807
+float: 1.23
+double: 4.56
+seq-scalar:
+- a
+- b
+- c
+seq-map:
+- string: abc
+  int: 123
+- string: def
+  int: 456

@@ -1,0 +1,6 @@
+user:
+  name: User A
+  email: a@objectos.com.br
+dirs:
+  userHome:
+    path: /tmp/usera
