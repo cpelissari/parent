@@ -18,6 +18,7 @@ import br.com.objectos.comuns.sitebricks.relational.SearchString;
 public interface RequestWrapper {
 
   boolean booleanParam(String param);
+
   <E extends Enum<E>> E enumParam(Class<E> enumClass, String param);
   String param(String param);
 

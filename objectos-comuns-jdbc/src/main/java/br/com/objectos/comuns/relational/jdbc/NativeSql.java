@@ -27,6 +27,7 @@ import br.com.objectos.comuns.relational.search.ResultSetLoader;
 public interface NativeSql {
 
   interface AddIf {
+    NativeSql isTrue(boolean param);
     NativeSql paramNotNull(Object param);
   }
 

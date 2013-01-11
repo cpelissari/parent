@@ -34,7 +34,8 @@ public class FakeRequestWrapper implements RequestWrapper {
 
   @Override
   public boolean booleanParam(String param) {
-    return (Boolean) params.get(param);
+    Boolean object = (Boolean) params.get(param);
+    return object != null ? object.booleanValue() : false;
   }
   @SuppressWarnings("unchecked")
   @Override
