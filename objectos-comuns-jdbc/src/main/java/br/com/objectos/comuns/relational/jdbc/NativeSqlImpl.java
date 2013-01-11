@@ -76,6 +76,15 @@ abstract class NativeSqlImpl implements NativeSql {
   public AddIf addIf(final String string) {
     return new AddIf() {
       @Override
+      public NativeSql isTrue(boolean param) {
+        if (param) {
+          add(string);
+        }
+
+        return NativeSqlImpl.this;
+      }
+
+      @Override
       public NativeSql paramNotNull(Object param) {
         if (param != null && !"".equals(param)) {
           add(string);
