@@ -28,6 +28,7 @@ public class ValorFinanceiroSerializer extends JsonSerializer<ValorFinanceiro> {
     String text = value.toString();
 
     jgen.writeStartObject();
+    jgen.writeBooleanField("zero", value.isZero());
     jgen.writeObjectField("doubleValue", doubleValue);
     jgen.writeObjectField("text", text);
     jgen.writeEndObject();

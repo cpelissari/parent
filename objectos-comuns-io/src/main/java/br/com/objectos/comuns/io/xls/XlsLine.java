@@ -54,7 +54,7 @@ class XlsLine implements Line {
 
   @Override
   public Column column(int indice) {
-    Cell cell = row.getCell(indice);
+    Cell cell = row.getCell(indice, Row.CREATE_NULL_AS_BLANK);
     return new XlsColumn(converterMap, cell);
   }
 
