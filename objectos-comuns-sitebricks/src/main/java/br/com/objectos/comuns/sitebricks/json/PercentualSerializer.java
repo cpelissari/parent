@@ -37,6 +37,7 @@ public class PercentualSerializer extends JsonSerializer<Percentual> {
     String text = value.toString();
 
     jgen.writeStartObject();
+    jgen.writeBooleanField("zero", value.isZero());
     jgen.writeObjectField("doubleValue", doubleValue * 100d);
     jgen.writeObjectField("text", text);
     jgen.writeEndObject();
