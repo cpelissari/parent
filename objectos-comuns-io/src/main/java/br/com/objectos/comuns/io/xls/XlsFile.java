@@ -51,14 +51,14 @@ public class XlsFile implements ParsedLines.Builder {
 
   private final Map<ColumnKey<?>, XlsConverter<?>> converterMap = newHashMap();
 
-  private final InputStream inputStream;
+  private final Workbook workbook;
 
-  private int sheet = 0;
+  private Sheet sheet;
 
   private int skipLines = 0;
 
-  private XlsFile(InputStream inputStream) {
-    this.inputStream = inputStream;
+  private XlsFile(Workbook workbook) {
+    this.workbook = workbook;
 
     bindDefaultConverters();
   }
@@ -75,11 +75,17 @@ public class XlsFile implements ParsedLines.Builder {
   }
 
   public static XlsFile parse(InputStream inputStream) {
-    return new XlsFile(inputStream);
+    try {
+      Workbook workbook = new HSSFWorkbook(inputStream);
+      return new XlsFile(workbook);
+    } catch (IOException e) {
+      throw new ComunsIOException(e);
+    }
   }
   public static XlsFile parse(File file) {
     try {
-      return new XlsFile(new FileInputStream(file));
+      FileInputStream inputStream = new FileInputStream(file);
+      return parse(inputStream);
     } catch (FileNotFoundException e) {
       String msg = String.format("Cannot build XlsFile. File %s does not exist.", file);
       throw new IllegalArgumentException(msg, e);
@@ -88,7 +94,7 @@ public class XlsFile implements ParsedLines.Builder {
 
   @Override
   public ParsedLines getLines() {
-    Sheet sheet = getPlanilha();
+    Sheet sheet = this.sheet != null ? this.sheet : workbook.getSheetAt(0);
     return new XlsParsedLines(converterMap, sheet, skipLines);
   }
 
@@ -106,19 +112,12 @@ public class XlsFile implements ParsedLines.Builder {
   }
 
   public XlsFile withSheetIndex(int index) {
-    this.sheet = index;
+    this.sheet = workbook.getSheetAt(index);
     return this;
   }
-
-  private Sheet getPlanilha() {
-    try {
-
-      Workbook workbook = new HSSFWorkbook(inputStream);
-      return workbook.getSheetAt(sheet);
-
-    } catch (IOException e) {
-      throw new ComunsIOException(e);
-    }
+  public XlsFile withSheetName(String name) {
+    this.sheet = workbook.getSheet(name);
+    return this;
   }
 
 }
