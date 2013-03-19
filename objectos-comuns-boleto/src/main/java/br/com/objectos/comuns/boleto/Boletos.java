@@ -26,8 +26,7 @@ import br.com.caelum.stella.boleto.Sacado;
 import br.com.caelum.stella.boleto.transformer.BoletoGenerator;
 import br.com.objectos.comuns.base.br.CadastroRFB;
 import br.com.objectos.comuns.base.br.Cep;
-import br.com.objectos.comuns.base.br.Cnpj;
-import br.com.objectos.comuns.base.br.Cpf;
+import br.com.objectos.comuns.base.br.Estado;
 import br.com.objectos.comuns.matematica.financeira.ValorFinanceiro;
 
 /**
@@ -47,168 +46,8 @@ public class Boletos {
     this.emissor = Emissor.newEmissor();
   }
 
-  public Boletos nomeCedente(String nome) {
-    emissor.withCedente(nome);
-    return this;
-  }
-
-  public Boletos agencia(int agencia) {
-    emissor.withAgencia(agencia);
-    return this;
-  }
-
-  public Boletos digitoAgencia(char digito) {
-    emissor.withDigitoAgencia(digito);
-    return this;
-  }
-
-  public Boletos contaCorrente(long conta) {
-    emissor.withContaCorrente(conta);
-    return this;
-  }
-
-  public Boletos digitoContaCorrente(char digito) {
-    emissor.withDigitoContaCorrente(digito);
-    return this;
-  }
-
-  public Boletos codigoAgencia(int codigo) {
-    emissor.withCodigoFornecidoPelaAgencia(codigo);
-    return this;
-  }
-
-  public Boletos codigoOperacao(int codigo) {
-    emissor.withCodigoOperacao(codigo);
-    return this;
-  }
-
-  public Boletos carteira(int carteira) {
-    emissor.withCarteira(carteira);
-    return this;
-  }
-
-  public Boletos nossoNumero(long numero) {
-    emissor.withNossoNumero(numero);
-    return this;
-  }
-  public Boletos digitoNossoNumero(char digito) {
-    emissor.withDigitoNossoNumero(digito);
-    return this;
-  }
-
-  public Boletos numeroConvenio(long convenio) {
-    emissor.withNumeroConvenio(convenio);
-    return this;
-  }
-
-  public Boletos nomeSacado(String nome) {
-    sacado.withNome(nome);
-    return this;
-  }
-
-  public Boletos cadastroSacado(CadastroRFB cadastro) {
-    long longValue = cadastro.longValue();
-    sacado.withCpf(Long.toString(longValue));
-    return this;
-  }
-  public Boletos cnpjSacado(Cnpj cnpj) {
-    return cadastroSacado(cnpj);
-  }
-  public Boletos cpfSacado(Cpf cpf) {
-    return cadastroSacado(cpf);
-  }
-
-  public Boletos enderecoSacado(String endereco) {
-    sacado.withEndereco(endereco);
-    return this;
-  }
-
-  public Boletos bairroSacado(String bairro) {
-    sacado.withBairro(bairro);
-    return this;
-  }
-
-  public Boletos cepSacado(Cep cep) {
-    int prefixo = cep.getPrefixo();
-    int sufixo = cep.getSufixo();
-    sacado.withCep(String.format("%05d%03d", prefixo, sufixo));
-    return this;
-  }
-  public Boletos cidadeSacado(String cidade) {
-    sacado.withCidade(cidade);
-    return this;
-  }
-
-  public Boletos estadoSacado(String estado) {
-    sacado.withUf(estado);
-    return this;
-  }
-
-  public Boletos dataVencimento(LocalDate data) {
-    datas.withVencimento(toCalendar(data));
-    return this;
-  }
-
-  public Boletos dataProcessamento(LocalDate data) {
-    datas.withProcessamento(toCalendar(data));
-    return this;
-  }
-
-  public Boletos dataDocumento(LocalDate data) {
-    datas.withDocumento(toCalendar(data));
-    return this;
-  }
-
-  private Calendar toCalendar(LocalDate data) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(data.toDate());
-    return calendar;
-  }
-
-  public Boletos valorDoBoleto(double valor) {
-    boleto.withValorBoleto(valor);
-    return this;
-  }
-
-  public Boletos valorDoBoleto(ValorFinanceiro valor) {
-    double val = valor.doubleValue();
-    boleto.withValorBoleto(val);
-    return this;
-  }
-
-  public Boletos descricao(String descricao) {
-    boleto.withDescricoes(descricao);
-    return this;
-  }
-
-  public Boletos aceite(boolean aceite) {
-    boleto.withAceite(aceite);
-    return this;
-  }
-
-  public Boletos instrucoes(String instrucoes) {
-    boleto.withInstrucoes(instrucoes);
-    return this;
-  }
-
-  public Boletos locaisDepagamento(String locaisDePagamento) {
-    boleto.withLocaisDePagamento(locaisDePagamento);
-    return this;
-  }
-
-  public Boletos numeroDocumento(String numero) {
-    boleto.withNumeroDoDocumento(numero);
-    return this;
-  }
-
-  public Boletos especieDocumento(String especie) {
-    boleto.withEspecieDocumento(especie);
-    return this;
-  }
-
-  public Boletos paraBanco(BoletoBanco enumBanco) {
-    boleto.withBanco(enumBanco.getbanco());
-    return this;
+  public static Boletos newBoleto() {
+    return new Boletos();
   }
 
   public byte[] toPdf() {
@@ -229,8 +68,105 @@ public class Boletos {
         .toPDF(filename);
   }
 
-  public static Boletos newBoleto() {
-    return new Boletos();
+  public Boletos contaBancaria(BoletoContaBancaria conta) {
+    BoletoBanco banco = conta.getBanco();
+    boleto.withBanco(banco.stellaValue());
+
+    BoletoCarteira carteira = conta.getCarteira();
+    emissor.withCarteira(carteira.getCodigo(banco));
+
+    String _cc = conta.getNumero();
+    NumeroBancario cc = new NumeroBancario(_cc);
+    emissor.withContaCorrente(cc.longValue());
+    emissor.withDigitoContaCorrente(cc.getDigito());
+
+    String _agencia = conta.getAgencia();
+    NumeroBancario agencia = new NumeroBancario(_agencia);
+    emissor.withAgencia(agencia.intValue());
+    emissor.withDigitoAgencia(agencia.getDigito());
+
+    emissor.withCodigoFornecidoPelaAgencia(conta.getCodFornecidoPelaAgencia());
+    emissor.withCodigoOperacao(conta.getCodOperacao());
+
+    return this;
+  }
+
+  public Boletos cedente(BoletoCedente cedenteBoleto) {
+    emissor.withCedente(cedenteBoleto.getNome());
+    emissor.withNumeroConvenio(cedenteBoleto.getNumeroConvenio());
+
+    return this;
+  }
+
+  public Boletos sacado(BoletoSacado sacadoBoleto) {
+    sacado.withNome(sacadoBoleto.getNome());
+
+    cadastroSacado(sacadoBoleto.getCadastroRFB());
+
+    sacado.withEndereco(sacadoBoleto.getEndereco());
+    sacado.withBairro(sacadoBoleto.getBairro());
+
+    Cep cep = sacadoBoleto.getCep();
+    int prefixo = cep.getPrefixo();
+    int sufixo = cep.getSufixo();
+    sacado.withCep(String.format("%05d%03d", prefixo, sufixo));
+
+    sacado.withCidade(sacadoBoleto.getCidade());
+
+    Estado estado = sacadoBoleto.getEstado();
+    sacado.withUf(estado != null ? estado.name() : "");
+
+    return this;
+  }
+
+  public Boletos titulo(BoletoTitulo titulo) {
+    BoletoEspecie especie = titulo.getEspecie();
+    boleto.withEspecieDocumento(especie.getSigla());
+
+    ValorFinanceiro valor = titulo.getValor();
+    boleto.withValorBoleto(valor.bigDecimalValue());
+
+    Calendar dataDocumento = toCalendar(titulo.getEmissao());
+    datas.withDocumento(dataDocumento);
+
+    Calendar dataVencimento = toCalendar(titulo.getVencimento());
+    datas.withVencimento(dataVencimento);
+
+    return this;
+  }
+
+  public Boletos cobranca(BoletoCobranca cobranca) {
+    boleto.withDescricoes(cobranca.getDescricao());
+    boleto.withAceite(cobranca.isAceite());
+    boleto.withInstrucoes(cobranca.getInstrucao());
+    boleto.withLocaisDePagamento(cobranca.getLocalPagamento());
+    boleto.withNumeroDoDocumento(cobranca.getNumeroDocumento());
+
+    String _nossoNumero = cobranca.getNossoNumero();
+    NossoNumero nossoNumero = new NossoNumero(_nossoNumero);
+    emissor.withNossoNumero(nossoNumero.longValue());
+    emissor.withDigitoNossoNumero(nossoNumero.getDigito());
+
+    Calendar dataProcessamento = toCalendar(cobranca.getDataProcessamento());
+    datas.withProcessamento(dataProcessamento);
+
+    return this;
+  }
+
+  private Boletos cadastroSacado(CadastroRFB cadastro) {
+    long longValue = cadastro.longValue();
+    sacado.withCpf(Long.toString(longValue));
+    return this;
+  }
+
+  private Calendar toCalendar(LocalDate data) {
+    Calendar calendar = Calendar.getInstance();
+
+    if (data != null) {
+      calendar.setTime(data.toDate());
+    }
+
+    return calendar;
   }
 
   private void join() {
