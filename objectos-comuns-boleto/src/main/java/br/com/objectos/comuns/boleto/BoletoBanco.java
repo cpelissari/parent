@@ -31,25 +31,25 @@ import br.com.caelum.stella.boleto.bancos.Itau;
 public enum BoletoBanco {
   BANCO_DO_BRASIL(1) {
     @Override
-    Banco getbanco() {
+    Banco stellaValue() {
       return new BancoDoBrasil();
     }
   },
   BRADESCO(237) {
     @Override
-    Banco getbanco() {
+    Banco stellaValue() {
       return new Bradesco();
     }
   },
   CAIXA(104) {
     @Override
-    Banco getbanco() {
+    Banco stellaValue() {
       return new Caixa();
     }
   },
   ITAU(34) {
     @Override
-    Banco getbanco() {
+    Banco stellaValue() {
       return new Itau();
     }
   };
@@ -83,6 +83,6 @@ public enum BoletoBanco {
     return codigo;
   }
 
-  abstract Banco getbanco();
+  abstract Banco stellaValue();
 
 }

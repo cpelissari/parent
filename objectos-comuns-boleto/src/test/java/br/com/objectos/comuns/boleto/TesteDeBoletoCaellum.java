@@ -79,7 +79,7 @@ public class TesteDeBoletoCaellum {
     String instruções = "Não receber após a data de vencimento.";
     String locaisPagamento = "Pagável em qualquer agência até a data de vencimento";
     String numeroDeDocumento = "124365";
-    String especie = "EspecieDoc";
+    String especie = "DM";
 
     BancoDoBrasil banco = new BancoDoBrasil();
 
