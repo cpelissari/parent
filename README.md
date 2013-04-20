@@ -1,4 +1,4 @@
-objectos comuns :: parent
+objectos :: parent
 =========================
 
 License
