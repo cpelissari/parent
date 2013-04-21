@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.objectos</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>objectos :: parent</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<description>parent pom.xml for objectos projects</description>
 	<url>https://github.com/objectos/parent</url>
 	<licenses>
@@ -130,19 +129,13 @@
 									<configuration>
 										<target>
 
-											<copy
-												file="${project.build.directory}/${project.artifactId}-${project.version}.war"
-												tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}"
-												overwrite="true" />
+											<copy file="${project.build.directory}/${project.artifactId}-${project.version}.war" tofile="${jetty.home}/webapps/${project.artifactId}.war.${project.version}" overwrite="true" />
 
-											<copy file="${basedir}/resources/jetty-context.xml"
-												tofile="${jetty.home}/contexts/${project.artifactId}.xml"
-												overwrite="true">
+											<copy file="${basedir}/resources/jetty-context.xml" tofile="${jetty.home}/contexts/${project.artifactId}.xml" overwrite="true">
 
 												<filterset>
 													<filter token="jetty.contextPath" value="${project.contextPath}" />
-													<filter token="jetty.war"
-														value="${project.artifactId}.war.${project.version}" />
+													<filter token="jetty.war" value="${project.artifactId}.war.${project.version}" />
 												</filterset>
 
 											</copy>
