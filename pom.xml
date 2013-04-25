@@ -5,7 +5,7 @@
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>objectos :: parent</name>
-	<version>2.0-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<description>parent pom.xml for objectos projects</description>
 	<url>https://github.com/objectos/parent</url>
 	<licenses>
@@ -18,6 +18,7 @@
 	<scm>
 		<connection>scm:git:git://objectos/parent.git</connection>
 		<developerConnection>scm:git:git@github.com:objectos/parent.git</developerConnection>
+		<url>https://github.com/objectos/parent</url>
 	</scm>
 	<developers>
 		<developer>
